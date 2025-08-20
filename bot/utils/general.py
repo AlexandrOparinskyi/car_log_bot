@@ -1,0 +1,31 @@
+from typing import Tuple, Dict
+
+from fluentogram import TranslatorHub
+
+from database.models.cars import EngineTypeEnum, TransmissionTypeEnum
+
+
+def get_button_for_add_components(i18n: TranslatorHub) -> Tuple:
+    return ((i18n.mark.button(), "mark"),
+            (i18n.model.button(), "model"),
+            (i18n.year.button(), "year"),
+            (i18n.color.button(), "color"),
+            (i18n.mileage.button(), "mileage"),
+            (i18n.engine.type.button(), "engine"),
+            (i18n.transmission.type.button(), "transmission"))
+
+
+def get_text_for_select_part(i18n: TranslatorHub) -> Dict[str, Tuple]:
+    engine_buttons = [(i.value, str(i).split(".")[-1])
+                      for i in EngineTypeEnum]
+    transmission_buttons = [(i.value, str(i).split(".")[-1])
+                            for i in TransmissionTypeEnum]
+
+    return {"mark": (i18n.edit.mark.text(), []),
+            "model": (i18n.edit.model.text(), []),
+            "year": (i18n.edit.year.text(), []),
+            "color": (i18n.edit.color.text(), []),
+            "mileage": (i18n.edit.mileage.text(), []),
+            "engine": (i18n.edit.engine.text(), engine_buttons),
+            "transmission": (i18n.edit.transmission.text(),
+                             transmission_buttons),}

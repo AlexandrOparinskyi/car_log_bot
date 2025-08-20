@@ -1,0 +1,27 @@
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram_dialog import setup_dialogs
+from fluentogram import TranslatorHub
+
+from dialogs import register_dialogs
+from handlers import register_routers
+from middlewares import TranslatorRunnerMiddleware
+
+
+async def main(token: str,
+               hub: TranslatorHub) -> None:
+
+    bot: Bot = Bot(
+        token=token,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
+    )
+    dp: Dispatcher = Dispatcher(storage=MemoryStorage())
+
+    dp.update.middleware(TranslatorRunnerMiddleware())
+    register_routers(dp)
+    register_dialogs(dp)
+    setup_dialogs(dp)
+
+    await dp.start_polling(bot, _translator_hub=hub)

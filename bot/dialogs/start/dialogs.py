@@ -1,0 +1,97 @@
+from aiogram.enums import ContentType
+from aiogram_dialog import Dialog, Window
+from aiogram_dialog.widgets.input import MessageInput
+from aiogram_dialog.widgets.kbd import Button, Group, Select
+from aiogram_dialog.widgets.text import Format
+
+from states import StartState
+from .getters import (getter_start,
+                      getter_acquaintance,
+                      getter_first_car_name,
+                      getter_choice_next_step,
+                      getter_car_edit_menu,
+                      getter_edit_car_part)
+from .handlers import (acquaintance_button,
+                       add_first_car_button,
+                       enter_success_car_name,
+                       error_no_message_car_name,
+                       car_menu_button_button,
+                       start_edit_car_button,
+                       start_save_car_part_button,
+                       start_save_car_part_enter,
+                       error_start_edit_car_enter)
+from ..general import home_button, back_button
+
+start_dialog = Dialog(
+    Window(
+        Format("{start_text}"),
+        Button(Format("{acquaintance_button}"),
+               id="acquaintance_button",
+               on_click=acquaintance_button),
+        getter=getter_start,
+        state=StartState.start
+    ),
+    Window(
+        Format("{first_acquaintance_text}"),
+        Button(Format("{add_first_car_button}"),
+               id="add_first_car_button",
+               on_click=add_first_car_button),
+        getter=getter_acquaintance,
+        state=StartState.acquaintance
+    ),
+    Window(
+        Format("{first_car_name_text}"),
+        MessageInput(func=enter_success_car_name,
+                     content_types=ContentType.TEXT),
+        MessageInput(func=error_no_message_car_name),
+        getter=getter_first_car_name,
+        state=StartState.car_name
+    ),
+    Window(
+        Format("{choice_next_step}"),
+        Button(Format("{car_menu_button}"),
+               id="car_menu_button",
+               on_click=car_menu_button_button),
+        Button(Format("{home_button}"),
+               id="home_button",
+               on_click=home_button),
+        getter=getter_choice_next_step,
+        state=StartState.choice
+    ),
+    Window(
+        Format("{start_car_edit_menu}"),
+        Group(Select(Format("{item[0]}"),
+                     id="start_car_edit",
+                     item_id_getter=lambda x: x[1],
+                     items="edit_car_buttons",
+                     on_click=start_edit_car_button),
+              width=2),
+        Button(Format("{end_edit_car_button}"),
+               id="end_edit_car_button",
+               on_click=None),
+        getter=getter_car_edit_menu,
+        state=StartState.edit_car_menu
+    ),
+    Window(
+        Format("{edit_car_part_text}"),
+        Group(Select(Format("{item[0]}"),
+                     id="edit_car_part",
+                     item_id_getter=lambda x: x[1],
+                     items="buttons",
+                     on_click=start_save_car_part_button),
+              width=2),
+        Button(Format("{back_button}"),
+               id="start_back_button_to_car_edit_menu",
+               on_click=back_button),
+        getter=getter_edit_car_part,
+        state=StartState.edit_to_button
+    ),
+    Window(
+        Format("{edit_car_part_text}"),
+        MessageInput(func=start_save_car_part_enter,
+                     content_types=ContentType.TEXT),
+        MessageInput(func=error_start_edit_car_enter),
+        getter=getter_edit_car_part,
+        state=StartState.edit_to_text
+    )
+)
