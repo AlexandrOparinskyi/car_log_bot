@@ -14,3 +14,8 @@ class StartState(StatesGroup):
 
 class HomeState(StatesGroup):
     home = State()
+
+
+class InstructionState(StatesGroup):
+    instructions = State()
+    select_instruction = State()

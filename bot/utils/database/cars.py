@@ -54,7 +54,17 @@ async def update_car_by_id(car_id: int,
                            engine: Optional[str] = None,
                            transmission: Optional[str] = None,) -> None:
     """
-    Оставить докстринг дома
+    Обновляет машину по тем данным, которые передали
+    :param car_id: ID машины
+    :param car_name: имя
+    :param mark: марка
+    :param model: модель
+    :param year: год выпуска
+    :param color: цвет
+    :param mileage: пробег
+    :param engine: тип двигателя
+    :param transmission: тип коробки передач
+    :return:
     """
     update_values = {
         "name": car_name,

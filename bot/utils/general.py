@@ -6,6 +6,11 @@ from database.models.cars import EngineTypeEnum, TransmissionTypeEnum
 
 
 def get_button_for_add_components(i18n: TranslatorHub) -> Tuple:
+    """
+    Функция для генерации кнопок изменения параметров машины
+    :param i18n: словарь слов
+    :return: кортеж с кнопками вида (кнопка, id кнопки)
+    """
     return ((i18n.mark.button(), "mark"),
             (i18n.model.button(), "model"),
             (i18n.year.button(), "year"),
@@ -16,6 +21,12 @@ def get_button_for_add_components(i18n: TranslatorHub) -> Tuple:
 
 
 def get_text_for_select_part(i18n: TranslatorHub) -> Dict[str, Tuple]:
+    """
+    Функция для генерации текста при добавлении определенного параметра.
+    При изменении двигателя или коробки так же передаются кнопки
+    :param i18n: словарь слов
+    :return: Словарь с текстами и кнопками
+    """
     engine_buttons = [(i.value, str(i).split(".")[-1])
                       for i in EngineTypeEnum]
     transmission_buttons = [(i.value, str(i).split(".")[-1])

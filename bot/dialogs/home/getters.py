@@ -20,3 +20,4 @@ async def getter_home(i18n: TranslatorHub,
             "reviews_button": i18n.reviews.button(),
             "support_project_button": i18n.support.project.button(),
             "write_developer_button": i18n.write.developer.button()}
+

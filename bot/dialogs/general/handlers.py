@@ -2,7 +2,7 @@ from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager, StartMode, ShowMode
 from aiogram_dialog.widgets.kbd import Button, Select
 
-from states import HomeState, StartState
+from states import HomeState, StartState, InstructionState
 
 
 async def home_button(callback: CallbackQuery,
@@ -17,6 +17,9 @@ async def back_button(callback: CallbackQuery,
                       dialog_manager: DialogManager):
     if callback.data == "start_back_button_to_car_edit_menu":
         await dialog_manager.switch_to(StartState.edit_car_menu)
+
+    if callback.data == "back_button_to_instructions":
+        await dialog_manager.switch_to(InstructionState.instructions)
 
 
 async def next_state(callback: CallbackQuery,

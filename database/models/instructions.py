@@ -1,5 +1,5 @@
-from sqlalchemy import Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import Text, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
@@ -10,7 +10,6 @@ class Instruction(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str]
     text: Mapped[str] = mapped_column(Text)
-    for_start: Mapped[bool] = mapped_column(default=False)
 
     def __repr__(self):
         return f"Инструкция {self.title}"
