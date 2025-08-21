@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from aiogram.enums import ContentType
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import DialogManager, ShowMode
@@ -7,19 +5,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Select
 
 from states import StartState
-from utils import create_new_car, get_button_for_add_components, update_car_by_id
-
-
-async def acquaintance_button(callback: CallbackQuery,
-                              button: Button,
-                              dialog_manager: DialogManager):
-    await dialog_manager.next()
-
-
-async def add_first_car_button(callback: CallbackQuery,
-                               button: Button,
-                               dialog_manager: DialogManager):
-    await dialog_manager.next()
+from utils import create_new_car, update_car_by_id
 
 
 async def enter_success_car_name(message: Message,
@@ -54,12 +40,6 @@ async def error_no_message_car_name(message: Message,
     await message.answer(
         text=i18n.error.no.message.first.car.name()
     )
-
-
-async def car_menu_button_button(callback: CallbackQuery,
-                                 button: Button,
-                                 dialog_manager: DialogManager):
-    await dialog_manager.next()
 
 
 async def start_edit_car_button(callback: CallbackQuery,
@@ -111,7 +91,6 @@ async def error_start_edit_car_enter(message: Message,
 async def save_start_car_and_exit(callback: CallbackQuery,
                                   button: Button,
                                   dialog_manager: DialogManager):
-    print(dialog_manager.dialog_data)
     if dialog_manager.dialog_data.get("part"):
         dialog_manager.dialog_data.pop("part")
 

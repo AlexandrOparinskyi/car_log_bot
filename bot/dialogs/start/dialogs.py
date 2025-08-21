@@ -11,24 +11,23 @@ from .getters import (getter_start,
                       getter_first_car_name,
                       getter_choice_next_step,
                       getter_car_edit_menu,
-                      getter_edit_car_part, getter_end_acquaintance)
-from .handlers import (acquaintance_button,
-                       add_first_car_button,
-                       enter_success_car_name,
+                      getter_edit_car_part,
+                      getter_end_acquaintance)
+from .handlers import (enter_success_car_name,
                        error_no_message_car_name,
-                       car_menu_button_button,
                        start_edit_car_button,
                        start_save_car_part_button,
                        start_save_car_part_enter,
-                       error_start_edit_car_enter, save_start_car_and_exit)
-from ..general import home_button, back_button
+                       error_start_edit_car_enter,
+                       save_start_car_and_exit)
+from ..general import home_button, back_button, next_state
 
 start_dialog = Dialog(
     Window(
         Format("{start_text}"),
         Button(Format("{acquaintance_button}"),
                id="acquaintance_button",
-               on_click=acquaintance_button),
+               on_click=next_state),
         getter=getter_start,
         state=StartState.start
     ),
@@ -36,7 +35,7 @@ start_dialog = Dialog(
         Format("{first_acquaintance_text}"),
         Button(Format("{add_first_car_button}"),
                id="add_first_car_button",
-               on_click=add_first_car_button),
+               on_click=next_state),
         getter=getter_acquaintance,
         state=StartState.acquaintance
     ),
@@ -52,7 +51,7 @@ start_dialog = Dialog(
         Format("{choice_next_step}"),
         Button(Format("{car_menu_button}"),
                id="car_menu_button",
-               on_click=car_menu_button_button),
+               on_click=next_state),
         Button(Format("{home_button}"),
                id="home_button",
                on_click=home_button),

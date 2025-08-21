@@ -33,6 +33,8 @@ async def check_user_enter_edit_car(message: Message,
             )
             return
 
+        return True
+
     if part == "mileage":
         mileage = message.text
 

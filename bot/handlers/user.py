@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 
-from states import StartState
+from states import StartState, HomeState
 from utils import exists_user, create_user
 
 user_router = Router()
@@ -21,5 +21,5 @@ async def command_start(message: Message,
                                    mode=StartMode.RESET_STACK)
         return
 
-    await dialog_manager.start(state=StartState.start,
+    await dialog_manager.start(state=HomeState.home,
                                mode=StartMode.RESET_STACK)
