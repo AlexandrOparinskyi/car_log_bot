@@ -5,12 +5,13 @@ from aiogram_dialog.widgets.kbd import Button, Group, Select
 from aiogram_dialog.widgets.text import Format
 
 from states import StartState
+from .filters import check_user_enter_edit_car
 from .getters import (getter_start,
                       getter_acquaintance,
                       getter_first_car_name,
                       getter_choice_next_step,
                       getter_car_edit_menu,
-                      getter_edit_car_part)
+                      getter_edit_car_part, getter_end_acquaintance)
 from .handlers import (acquaintance_button,
                        add_first_car_button,
                        enter_success_car_name,
@@ -19,7 +20,7 @@ from .handlers import (acquaintance_button,
                        start_edit_car_button,
                        start_save_car_part_button,
                        start_save_car_part_enter,
-                       error_start_edit_car_enter)
+                       error_start_edit_car_enter, save_start_car_and_exit)
 from ..general import home_button, back_button
 
 start_dialog = Dialog(
@@ -68,7 +69,7 @@ start_dialog = Dialog(
               width=2),
         Button(Format("{end_edit_car_button}"),
                id="end_edit_car_button",
-               on_click=None),
+               on_click=save_start_car_and_exit),
         getter=getter_car_edit_menu,
         state=StartState.edit_car_menu
     ),
@@ -89,9 +90,18 @@ start_dialog = Dialog(
     Window(
         Format("{edit_car_part_text}"),
         MessageInput(func=start_save_car_part_enter,
-                     content_types=ContentType.TEXT),
+                     content_types=ContentType.TEXT,
+                     filter=check_user_enter_edit_car),
         MessageInput(func=error_start_edit_car_enter),
         getter=getter_edit_car_part,
         state=StartState.edit_to_text
+    ),
+    Window(
+        Format("{end_acquaintance_text}"),
+        Button(Format("{home_button}"),
+               id="home_button",
+               on_click=home_button),
+        getter=getter_end_acquaintance,
+        state=StartState.end_acquaintance
     )
 )

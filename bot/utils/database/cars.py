@@ -1,6 +1,9 @@
-from sqlalchemy import select, insert, delete
+from typing import Optional
+
+from sqlalchemy import select, insert, delete, update, Engine
 
 from database import Car, get_async_session
+from database.models.cars import EngineTypeEnum, TransmissionTypeEnum
 
 
 async def get_car_by_id(car_id: int) -> Car:
@@ -38,4 +41,43 @@ async def delete_car_by_id(car_id: int) -> None:
     """
     async with get_async_session() as session:
         await session.execute(delete(Car).where(Car.id == car_id))
+        await session.commit()
+
+
+async def update_car_by_id(car_id: int,
+                           car_name: str,
+                           mark: Optional[str] = None,
+                           model: Optional[str] = None,
+                           year: Optional[str] = None,
+                           color: Optional[str] = None,
+                           mileage: Optional[str] = None,
+                           engine: Optional[str] = None,
+                           transmission: Optional[str] = None,) -> None:
+    """
+    Оставить докстринг дома
+    """
+    update_values = {
+        "name": car_name,
+        "mark": mark,
+        "model": model,
+        "color": color
+    }
+
+    if year:
+        update_values.update(year=int(year))
+
+    if mileage:
+        update_values.update(mileage=int(mileage))
+
+    if engine:
+        update_values.update(engine_type=EngineTypeEnum[engine])
+
+    if transmission:
+        update_values.update(transmission_type=TransmissionTypeEnum[transmission])
+
+    async with get_async_session() as session:
+        await session.execute(update(Car).where(Car.id == car_id).values(
+            **update_values
+        ))
+
         await session.commit()

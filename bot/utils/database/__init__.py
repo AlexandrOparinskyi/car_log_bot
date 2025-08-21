@@ -9,4 +9,5 @@ __all__ = ["exists_user",
            "get_user_by_id",
            "get_car_by_id",
            "delete_car_by_id",
-           "create_new_car"]
+           "create_new_car",
+           "update_car_by_id"]

@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Select
 
 from states import StartState
-from utils import create_new_car, get_button_for_add_components
+from utils import create_new_car, get_button_for_add_components, update_car_by_id
 
 
 async def acquaintance_button(callback: CallbackQuery,
@@ -89,42 +89,6 @@ async def start_save_car_part_enter(message: Message,
                                     widget: MessageInput,
                                     dialog_manager: DialogManager):
     part = dialog_manager.dialog_data.get("part")
-    i18n = dialog_manager.middleware_data.get("i18n")
-
-    if part == "year":
-        year = message.text
-        current_year = datetime.now().year
-
-        try:
-            if 1900 > int(year) or int(year) > current_year:
-                dialog_manager.show_mode = ShowMode.NO_UPDATE
-                await message.answer(
-                    text=i18n.error.enter.car.year(
-                        user_input=message.text,
-                        current_year=str(current_year)
-                    )
-                )
-                return
-        except ValueError:
-            dialog_manager.show_mode = ShowMode.NO_UPDATE
-            await message.answer(
-                text=i18n.error.enter.car.year(
-                    user_input=message.text,
-                    current_year=str(current_year)
-                )
-            )
-            return
-
-    if part == "mileage":
-        mileage = message.text
-
-        if not mileage.isdigit():
-            dialog_manager.show_mode = ShowMode.NO_UPDATE
-            await message.answer(
-                text=i18n.error.enter.car.mileage(user_input=message.text)
-            )
-            return
-
     dialog_manager.dialog_data[part] = message.text
 
     await dialog_manager.switch_to(state=StartState.edit_car_menu)
@@ -142,3 +106,15 @@ async def error_start_edit_car_enter(message: Message,
     await message.answer(
         text=i18n.error.enter.no.text()
     )
+
+
+async def save_start_car_and_exit(callback: CallbackQuery,
+                                  button: Button,
+                                  dialog_manager: DialogManager):
+    print(dialog_manager.dialog_data)
+    if dialog_manager.dialog_data.get("part"):
+        dialog_manager.dialog_data.pop("part")
+
+    await update_car_by_id(**dialog_manager.dialog_data)
+
+    await dialog_manager.switch_to(state=StartState.end_acquaintance)

@@ -69,3 +69,9 @@ async def getter_edit_car_part(i18n: TranslatorHub,
     return {"edit_car_part_text": edit_car_part_text,
             "buttons": buttons,
             "back_button": i18n.back.button()}
+
+
+async def getter_end_acquaintance(i18n: TranslatorHub,
+                                  **kwargs) -> Dict[str, str]:
+    return {"end_acquaintance_text": i18n.start.end.acquaintance.text(),
+            "home_button": i18n.home.button()}

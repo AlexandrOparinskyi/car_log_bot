@@ -9,6 +9,7 @@ class StartState(StatesGroup):
     edit_car_menu = State()
     edit_to_text = State()
     edit_to_button = State()
+    end_acquaintance = State()
 
 
 class HomeState(StatesGroup):
