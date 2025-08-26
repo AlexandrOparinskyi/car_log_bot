@@ -14,13 +14,15 @@ from .getters import (getter_start,
                       getter_edit_car_part,
                       getter_end_acquaintance)
 from .handlers import (enter_success_car_name,
-                       error_no_message_car_name,
                        start_edit_car_button,
                        start_save_car_part_button,
                        start_save_car_part_enter,
                        error_start_edit_car_enter,
                        save_start_car_and_exit)
-from ..general import home_button, back_button, next_state
+from ..general import (home_button,
+                       back_button,
+                       next_state,
+                       error_no_message_car_name)
 
 start_dialog = Dialog(
     Window(

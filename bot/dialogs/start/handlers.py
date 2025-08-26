@@ -31,17 +31,6 @@ async def enter_success_car_name(message: Message,
     await dialog_manager.next()
 
 
-async def error_no_message_car_name(message: Message,
-                                    widget: MessageInput,
-                                    dialog_manager: DialogManager):
-    dialog_manager.show_mode = ShowMode.NO_UPDATE
-    i18n = dialog_manager.middleware_data.get("i18n")
-
-    await message.answer(
-        text=i18n.error.no.message.first.car.name()
-    )
-
-
 async def start_edit_car_button(callback: CallbackQuery,
                                 widget: Select,
                                 dialog_manager: DialogManager,

@@ -21,3 +21,10 @@ async def getter_home(i18n: TranslatorHub,
             "support_project_button": i18n.support.project.button(),
             "write_developer_button": i18n.write.developer.button()}
 
+
+async def getter_write_developer(i18n: TranslatorHub,
+                                 **kwargs) -> Dict[str, str]:
+    return {"write_developer_text": i18n.write.developer.text(),
+            "developer_button": i18n.developer.button(),
+            "developer_url": i18n.developer.url(),
+            "home_button": i18n.home.button(),}

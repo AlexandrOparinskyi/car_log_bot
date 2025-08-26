@@ -14,8 +14,21 @@ class StartState(StatesGroup):
 
 class HomeState(StatesGroup):
     home = State()
+    write_developer = State()
 
 
 class InstructionState(StatesGroup):
     instructions = State()
     select_instruction = State()
+
+
+class GarageState(StatesGroup):
+    garage = State()
+    car_info = State()
+
+
+class AddCarState(StatesGroup):
+    car_name = State()
+    edit_car_menu = State()
+    edit_to_text = State()
+    edit_to_button = State()
