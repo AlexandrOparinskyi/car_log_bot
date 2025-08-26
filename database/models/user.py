@@ -21,5 +21,15 @@ class User(Base):
     is_banned: Mapped[bool] = mapped_column(Boolean,
                                             default=False,
                                             nullable=False)
+    is_premium: Mapped[bool] = mapped_column(default=False)
+    is_admin: Mapped[bool] = mapped_column(default=False)
 
     cars = relationship("Car", back_populates="user", lazy="selectin")
+
+    @property
+    def active_cars(self):
+        return [car for car in self.cars if not car.is_deleted and car.is_active]
+
+    @property
+    def count_car(self):
+        return [car for car in self.cars if not car.is_deleted]

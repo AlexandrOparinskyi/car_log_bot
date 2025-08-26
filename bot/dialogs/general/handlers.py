@@ -28,10 +28,13 @@ async def back_button(callback: CallbackQuery,
         await dialog_manager.switch_to(state=InstructionState.instructions)
 
     if callback.data == "back_button_to_garage":
-        await dialog_manager.switch_to(state=GarageState.garage)
+        await dialog_manager.start(state=GarageState.garage)
 
     if callback.data == "back_button_to_edit_menu":
         await dialog_manager.switch_to(state=AddCarState.edit_car_menu)
+
+    if callback.data == "garage_back_button_to_edit_menu":
+        await dialog_manager.switch_to(state=GarageState.car_info)
 
 
 async def next_state(callback: CallbackQuery,

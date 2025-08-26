@@ -115,3 +115,8 @@ end-edit-car-button = ✅ Закончить и сохранить
 
 home-button = ♻️ В главное меню
 back-button = 🔙 Назад
+
+yes-button = ✅ Да{ $descr }
+no-button = ❌ Нет{ $descr }
+
+connect-premium-button = 💎 Подключить премиум аккаунт

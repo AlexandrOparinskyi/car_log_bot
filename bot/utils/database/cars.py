@@ -39,8 +39,13 @@ async def delete_car_by_id(car_id: int) -> None:
     :param car_id: ID машины
     :return:
     """
+    car_id = int(car_id)
+
     async with get_async_session() as session:
-        await session.execute(delete(Car).where(Car.id == car_id))
+        await session.execute(update(Car).where(Car.id == car_id).values(
+            is_deleted=True,
+            is_active=False
+        ))
         await session.commit()
 
 
@@ -67,6 +72,7 @@ async def update_car_by_id(car_id: int,
     :param transmission: тип коробки передач
     :return:
     """
+    car_id = int(car_id)
     update_values = {
         "name": car_name,
         "mark": mark,
@@ -84,7 +90,8 @@ async def update_car_by_id(car_id: int,
         update_values.update(engine_type=EngineTypeEnum[engine])
 
     if transmission:
-        update_values.update(transmission_type=TransmissionTypeEnum[transmission])
+        transmission_type = TransmissionTypeEnum[transmission]
+        update_values.update(transmission_type=transmission_type)
 
     async with get_async_session() as session:
         await session.execute(update(Car).where(Car.id == car_id).values(

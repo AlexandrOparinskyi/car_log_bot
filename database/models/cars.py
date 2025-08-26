@@ -44,5 +44,7 @@ class Car(Base):
                                                  nullable=False)
     user_id: Mapped[User] = mapped_column(ForeignKey('users.id',
                                                      ondelete='CASCADE'))
+    is_deleted: Mapped[bool] = mapped_column(default=False)
+    is_active: Mapped[bool] = mapped_column(default=True)
 
     user = relationship("User", back_populates="cars")

@@ -25,6 +25,10 @@ class InstructionState(StatesGroup):
 class GarageState(StatesGroup):
     garage = State()
     car_info = State()
+    edit_to_text = State()
+    edit_to_button = State()
+    delete_car = State()
+    large_count_car = State()
 
 
 class AddCarState(StatesGroup):
