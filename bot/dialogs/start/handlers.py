@@ -63,26 +63,9 @@ async def start_save_car_part_enter(message: Message,
     await dialog_manager.switch_to(state=StartState.edit_car_menu)
 
 
-async def error_start_edit_car_enter(message: Message,
-                                     widget: MessageInput,
-                                     dialog_manager: DialogManager):
-    dialog_manager.show_mode = ShowMode.NO_UPDATE
-    i18n = dialog_manager.middleware_data.get("i18n")
-
-    if message.content_type == ContentType.TEXT:
-        return
-
-    await message.answer(
-        text=i18n.error.enter.no.text()
-    )
-
-
 async def save_start_car_and_exit(callback: CallbackQuery,
                                   button: Button,
                                   dialog_manager: DialogManager):
-    if dialog_manager.dialog_data.get("part"):
-        dialog_manager.dialog_data.pop("part")
-
     await update_car_by_id(**dialog_manager.dialog_data)
 
     await dialog_manager.switch_to(state=StartState.end_acquaintance)

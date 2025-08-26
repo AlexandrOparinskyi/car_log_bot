@@ -6,13 +6,18 @@ from aiogram_dialog.widgets.text import Format
 
 from dialogs.garage.getters import (getter_garage,
                                     getter_car_info,
-                                    getter_car_name, getter_edit_car_menu)
+                                    getter_car_name,
+                                    getter_edit_car_menu,
+                                    getter_edit_car_part)
 from .handlers import (car_info,
                        add_car_button,
-                       enter_car_name)
+                       enter_car_name,
+                       select_part_car_to_edit, save_car_part_enter, save_car_part_button, save_updated_car)
 from ..general import (home_button,
                        back_button,
-                       error_no_message_car_name)
+                       error_no_message_car_name,
+                       check_user_enter_edit_car,
+                       error_edit_car_enter)
 from states import GarageState, AddCarState
 
 garage_dialog = Dialog(
@@ -38,7 +43,7 @@ garage_dialog = Dialog(
         Group(Select(Format("{item[0]}"),
                      id="edit_car_part",
                      item_id_getter=lambda x: x[1],
-                     items="edit_car_buttons",),
+                     items="edit_car_buttons", ),
               width=2),
         Button(Format("{back_button}"),
                id="back_button_to_garage",
@@ -62,15 +67,42 @@ add_car_dialog = Dialog(
         Group(Select(Format("{item[0]}"),
                      id="car_part",
                      item_id_getter=lambda x: x[1],
-                     items="buttons"),
+                     items="buttons",
+                     on_click=select_part_car_to_edit),
               width=2),
-        Button(Format("save_car_button"),
+        Button(Format("{save_car_button}"),
                id="save_car_button",
-               on_click=None),
+               on_click=save_updated_car),
         Button(Format("{home_button}"),
                id="home_button",
                on_click=home_button),
         getter=getter_edit_car_menu,
         state=AddCarState.edit_car_menu
+    ),
+    Window(
+        Format("{text}"),
+        MessageInput(func=save_car_part_enter,
+                     content_types=ContentType.TEXT,
+                     filter=check_user_enter_edit_car),
+        MessageInput(func=error_edit_car_enter),
+        Button(Format("{back_button}"),
+               id="back_button_to_edit_menu",
+               on_click=back_button),
+        getter=getter_edit_car_part,
+        state=AddCarState.edit_to_text
+    ),
+    Window(
+        Format("{text}"),
+        Group(Select(Format("{item[0]}"),
+                     id="car_part",
+                     item_id_getter=lambda x: x[1],
+                     items="buttons",
+                     on_click=save_car_part_button),
+              width=2),
+        Button(Format("{back_button}"),
+               id="back_button_to_edit_menu",
+               on_click=back_button),
+        getter=getter_edit_car_part,
+        state=AddCarState.edit_to_button
     )
 )

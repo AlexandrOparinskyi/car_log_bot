@@ -5,7 +5,6 @@ from aiogram_dialog.widgets.kbd import Button, Group, Select
 from aiogram_dialog.widgets.text import Format
 
 from states import StartState
-from .filters import check_user_enter_edit_car
 from .getters import (getter_start,
                       getter_acquaintance,
                       getter_first_car_name,
@@ -17,12 +16,13 @@ from .handlers import (enter_success_car_name,
                        start_edit_car_button,
                        start_save_car_part_button,
                        start_save_car_part_enter,
-                       error_start_edit_car_enter,
                        save_start_car_and_exit)
 from ..general import (home_button,
                        back_button,
                        next_state,
-                       error_no_message_car_name)
+                       error_no_message_car_name,
+                       check_user_enter_edit_car,
+                       error_edit_car_enter)
 
 start_dialog = Dialog(
     Window(
@@ -93,7 +93,7 @@ start_dialog = Dialog(
         MessageInput(func=start_save_car_part_enter,
                      content_types=ContentType.TEXT,
                      filter=check_user_enter_edit_car),
-        MessageInput(func=error_start_edit_car_enter),
+        MessageInput(func=error_edit_car_enter),
         getter=getter_edit_car_part,
         state=StartState.edit_to_text
     ),

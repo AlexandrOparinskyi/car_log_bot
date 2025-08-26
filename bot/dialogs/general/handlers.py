@@ -1,9 +1,14 @@
+from aiogram.enums import ContentType
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import DialogManager, StartMode, ShowMode
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Select
 
-from states import HomeState, StartState, InstructionState, GarageState
+from states import (HomeState,
+                    StartState,
+                    InstructionState,
+                    GarageState,
+                    AddCarState)
 
 
 async def home_button(callback: CallbackQuery,
@@ -17,13 +22,16 @@ async def back_button(callback: CallbackQuery,
                       button: Button,
                       dialog_manager: DialogManager):
     if callback.data == "start_back_button_to_car_edit_menu":
-        await dialog_manager.switch_to(StartState.edit_car_menu)
+        await dialog_manager.switch_to(state=StartState.edit_car_menu)
 
     if callback.data == "back_button_to_instructions":
-        await dialog_manager.switch_to(InstructionState.instructions)
+        await dialog_manager.switch_to(state=InstructionState.instructions)
 
     if callback.data == "back_button_to_garage":
-        await dialog_manager.switch_to(GarageState.garage)
+        await dialog_manager.switch_to(state=GarageState.garage)
+
+    if callback.data == "back_button_to_edit_menu":
+        await dialog_manager.switch_to(state=AddCarState.edit_car_menu)
 
 
 async def next_state(callback: CallbackQuery,
@@ -40,6 +48,20 @@ async def error_no_message_car_name(message: Message,
 
     await message.answer(
         text=i18n.error.no.message.first.car.name()
+    )
+
+
+async def error_edit_car_enter(message: Message,
+                                     widget: MessageInput,
+                                     dialog_manager: DialogManager):
+    dialog_manager.show_mode = ShowMode.NO_UPDATE
+    i18n = dialog_manager.middleware_data.get("i18n")
+
+    if message.content_type == ContentType.TEXT:
+        return
+
+    await message.answer(
+        text=i18n.error.enter.no.text()
     )
 
 

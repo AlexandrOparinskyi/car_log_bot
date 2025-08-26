@@ -52,7 +52,8 @@ async def update_car_by_id(car_id: int,
                            color: Optional[str] = None,
                            mileage: Optional[str] = None,
                            engine: Optional[str] = None,
-                           transmission: Optional[str] = None,) -> None:
+                           transmission: Optional[str] = None,
+                           **kwargs) -> None:
     """
     Обновляет машину по тем данным, которые передали
     :param car_id: ID машины
