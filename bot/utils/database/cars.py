@@ -16,17 +16,21 @@ async def get_car_by_id(car_id: int) -> Car:
         return await session.scalar(select(Car).where(Car.id == car_id))
 
 
-async def create_new_car(name: str, user_id: int) -> int:
+async def create_new_car(name: str,
+                         user_id: int,
+                         is_selected_main: bool = False) -> int:
     """
     Создает машину в базе данных с одним именем
     :param user_id: ID пользователя
     :param name: название/кличка машины
+    :param is_selected_main: Выбрана ли основной
     :return:
     """
     async with get_async_session() as session:
         result = await session.execute(insert(Car).values(
             name=name,
-            user_id=user_id
+            user_id=user_id,
+            is_selected_main=is_selected_main
         ).returning(Car.id))
         await session.commit()
         car_id = result.scalar()

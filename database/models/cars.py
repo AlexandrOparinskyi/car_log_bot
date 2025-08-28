@@ -46,6 +46,7 @@ class Car(Base):
                                                      ondelete='CASCADE'))
     is_deleted: Mapped[bool] = mapped_column(default=False)
     is_active: Mapped[bool] = mapped_column(default=True)
+    is_selected_main: Mapped[bool] = mapped_column(default=False)
 
     user = relationship("User", back_populates="cars")
     refuel_record = relationship("RefuelRecord",

@@ -24,7 +24,9 @@ async def enter_success_car_name(message: Message,
         )
         return
 
-    car_id = await create_new_car(message.text, message.from_user.id)
+    car_id = await create_new_car(message.text,
+                                  message.from_user.id,
+                                  True)
     dialog_manager.dialog_data.update(car_id=car_id,
                                       car_name=message.text)
 

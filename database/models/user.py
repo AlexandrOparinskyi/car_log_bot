@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import BigInteger, DateTime, func, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -34,5 +34,11 @@ class User(Base):
         return [car for car in self.cars if not car.is_deleted and car.is_active]
 
     @property
-    def count_car(self):
+    def count_car(self) :
         return [car for car in self.cars if not car.is_deleted]
+
+    @property
+    def get_selected_main_car(self):
+        selected_cars = list(
+            filter(lambda car: car.is_selected_main == True, self.cars))
+        return selected_cars[0] if selected_cars else None
