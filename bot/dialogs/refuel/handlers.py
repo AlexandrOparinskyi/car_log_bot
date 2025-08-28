@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from aiogram.types import Message
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import MessageInput

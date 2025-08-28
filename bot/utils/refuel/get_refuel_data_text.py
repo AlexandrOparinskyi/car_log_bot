@@ -9,6 +9,13 @@ from database import User, Car
 def get_refuel_data(i18n: TranslatorHub,
                     data: Dict[str, str | Car],
                     user: User) -> str:
+    """
+    Возвращает текст для информации о внесении данных о заправке
+    :param i18n: словарь с текстами
+    :param data: dialog_data
+    :param user: User
+    :return: текст
+    """
     text = f"\n\n"
     car = data.get("car")
     now_date = datetime.now().strftime("%d.%m.%Y")
@@ -19,7 +26,10 @@ def get_refuel_data(i18n: TranslatorHub,
             text += f"🛣️ <b>Пробег:</b> {car.mileage}км\n"
 
     if data.get("total_price"):
-        total_price = round(float(data.get('total_price')), 2)
+        price = data.get("total_price")
+        if "," in price:
+            price = price.replace(",", ".")
+        total_price = round(float(price), 2)
         text += f"💵 <b>Общая сумма:</b> {total_price} ₽\n"
 
     text += f"📅 <b>Дата заправки:</b> {now_date}\n"

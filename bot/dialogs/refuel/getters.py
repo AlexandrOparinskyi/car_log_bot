@@ -4,7 +4,7 @@ from aiogram.types import User
 from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from utils import get_refuel_data, get_user_by_id
+from utils import get_refuel_data, get_user_by_id, get_refuel_button
 
 
 async def getter_total_price(i18n: TranslatorHub,
@@ -29,4 +29,11 @@ async def getter_refuel_edit_menu(i18n: TranslatorHub,
         record_data=record_data
     )
 
-    return {"refuel_edit_menu_text": refuel_edit_menu_text}
+    buttons = get_refuel_button(i18n)
+
+    return {"refuel_edit_menu_text": refuel_edit_menu_text,
+            "buttons": buttons,
+            "full_tank_button": i18n.edit.refuel.full.tank.button(),
+            "not_full_tank_button": i18n.edit.refuel.no.full.tank.button(),
+            "save_button": i18n.end.edit.car.button(),
+            "home_button": i18n.home.button()}

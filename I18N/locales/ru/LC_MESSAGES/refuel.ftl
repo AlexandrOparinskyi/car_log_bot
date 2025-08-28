@@ -36,15 +36,12 @@ refuel-edit-menu-text =
     Выбери, какой параметр хочешь изменить:
 
 
-
-
-# 🚗 <b>Автомобиль:</b> {car_name}
-# ⛽ <b>АЗС:</b> {gas_station}
-# 🛣️ <b>Пробег:</b> {mileage} км
-# 💧 <b>Литры:</b> {liters} л
-# 💰 <b>Цена за литр:</b> {price_per_liter} ₽
-# 💵 <b>Общая сумма:</b> {total_cost} ₽
-# 🔧 <b>Тип топлива:</b> {fuel_type}
-# 🎯 <b>Полный бак:</b> {full_tank_status}
-# 📅 <b>Дата заправки:</b> {date}
-# 📝 <b>Комментарий:</b> {comment}
+edit-refuel-car-button = 🚗 Автомобиль
+edit-refuel-gas-station-button = ⛽ Заправка
+edit-refuel-liters-button = 💧 Литры
+edit-refuel-fuel-type-button = 🔧 Тип топлива
+edit-refuel-full-tank-button = ✅ Полный бак
+edit-refuel-no-full-tank-button = ❌ Полный бак
+edit-refuel-comment-button = 📝 Комментарий
+edit-refuel-total-price-button = 💵 Общая сумма
+edit-refuel-date-button = 📅 Дата заправки
