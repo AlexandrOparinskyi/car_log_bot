@@ -7,18 +7,22 @@ from fluentogram import TranslatorHub
 from utils import (get_user_by_id, get_car_by_id,
                    get_button_for_add_components,
                    generate_text_for_car_edit_menu,
-                   get_text_for_select_part)
-from utils.generate_car_info_data import generate_car_info
+                   get_text_for_select_part,
+                   generate_car_info)
 
 
 async def getter_garage(i18n: TranslatorHub,
                         event_from_user: User,
                         **kwargs) -> Dict[str, str]:
     user = await get_user_by_id(event_from_user.id)
-    car_buttons = [(c.id, c.name) for c in user.active_cars]
+    cars = sorted(user.active_cars, key=lambda x: x.created_at)
+    car_buttons = [(c.id, c.name) for c in cars]
+
+    if not user.is_premium:
+        car_buttons = car_buttons[:2]
 
     return {"garage_text": i18n.garage.text(username=user.first_name,
-                                            cars_count=len(user.cars)),
+                                            cars_count=len(car_buttons)),
             "home_button": i18n.home.button(),
             "car_buttons": car_buttons,
             "add_car_button": i18n.add.car.button()}

@@ -25,6 +25,9 @@ class User(Base):
     is_admin: Mapped[bool] = mapped_column(default=False)
 
     cars = relationship("Car", back_populates="user", lazy="selectin")
+    refuel_records = relationship("RefuelRecord",
+                                  back_populates="user",
+                                  lazy="selectin")
 
     @property
     def active_cars(self):

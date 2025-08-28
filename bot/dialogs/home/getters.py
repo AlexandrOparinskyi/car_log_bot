@@ -13,7 +13,7 @@ async def getter_home(i18n: TranslatorHub,
 
     return {"home_text": i18n.home.text(username=user.first_name,
                                         car_count=len(user.cars)),
-            "add_button": i18n.add.button(),
+            "add_record_button": i18n.add.record.button(),
             "garage_button": i18n.garage.button(),
             "lk_button": i18n.lk.button(),
             "instructions_button": i18n.instructions.button(),
@@ -28,3 +28,13 @@ async def getter_write_developer(i18n: TranslatorHub,
             "developer_button": i18n.developer.button(),
             "developer_url": i18n.developer.url(),
             "home_button": i18n.home.button(),}
+
+
+async def getter_select_record(i18n: TranslatorHub,
+                               **kwargs) -> Dict[str, str]:
+    return {"add_record_text": i18n.add.record.text(),
+            "refuel_button": i18n.refuel.button(),
+            "service_button": i18n.service.button(),
+            "purchase_button": i18n.purchase.button(),
+            "other_record_button": i18n.other.record.button(),
+            "home_button": i18n.home.button()}

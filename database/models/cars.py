@@ -48,3 +48,6 @@ class Car(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
 
     user = relationship("User", back_populates="cars")
+    refuel_record = relationship("RefuelRecord",
+                                 back_populates="car",
+                                 lazy="selectin")

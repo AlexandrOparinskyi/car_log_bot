@@ -15,6 +15,7 @@ class StartState(StatesGroup):
 class HomeState(StatesGroup):
     home = State()
     write_developer = State()
+    select_record = State()
 
 
 class InstructionState(StatesGroup):
@@ -36,3 +37,7 @@ class AddCarState(StatesGroup):
     edit_car_menu = State()
     edit_to_text = State()
     edit_to_button = State()
+
+
+class RefuelState(StatesGroup):
+    total_price = State()
