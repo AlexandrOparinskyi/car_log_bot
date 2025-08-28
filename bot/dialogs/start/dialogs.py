@@ -22,7 +22,7 @@ from ..general import (home_button,
                        next_state,
                        error_no_message_car_name,
                        check_user_enter_edit_car,
-                       error_edit_car_enter)
+                       error_enter_no_text)
 
 start_dialog = Dialog(
     Window(
@@ -93,7 +93,7 @@ start_dialog = Dialog(
         MessageInput(func=start_save_car_part_enter,
                      content_types=ContentType.TEXT,
                      filter=check_user_enter_edit_car),
-        MessageInput(func=error_edit_car_enter),
+        MessageInput(func=error_enter_no_text),
         getter=getter_edit_car_part,
         state=StartState.edit_to_text
     ),

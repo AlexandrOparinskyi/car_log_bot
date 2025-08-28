@@ -25,7 +25,7 @@ from ..general import (home_button,
                        back_button,
                        error_no_message_car_name,
                        check_user_enter_edit_car,
-                       error_edit_car_enter,
+                       error_enter_no_text,
                        service_in_developing)
 
 garage_dialog = Dialog(
@@ -72,7 +72,7 @@ garage_dialog = Dialog(
                      content_types=ContentType.TEXT,
                      filter=check_user_enter_edit_car,
                      id="garage_edit_car_part"),
-        MessageInput(func=error_edit_car_enter),
+        MessageInput(func=error_enter_no_text),
         Button(Format("{back_button}"),
                id="garage_back_button_to_edit_menu",
                on_click=back_button),
@@ -151,7 +151,7 @@ add_car_dialog = Dialog(
         MessageInput(func=save_car_part_enter,
                      content_types=ContentType.TEXT,
                      filter=check_user_enter_edit_car),
-        MessageInput(func=error_edit_car_enter),
+        MessageInput(func=error_enter_no_text),
         Button(Format("{back_button}"),
                id="back_button_to_edit_menu",
                on_click=back_button),

@@ -54,9 +54,9 @@ async def error_no_message_car_name(message: Message,
     )
 
 
-async def error_edit_car_enter(message: Message,
-                                     widget: MessageInput,
-                                     dialog_manager: DialogManager):
+async def error_enter_no_text(message: Message,
+                              widget: MessageInput,
+                              dialog_manager: DialogManager):
     dialog_manager.show_mode = ShowMode.NO_UPDATE
     i18n = dialog_manager.middleware_data.get("i18n")
 

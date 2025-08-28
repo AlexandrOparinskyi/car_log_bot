@@ -7,4 +7,4 @@ __all__ = ["home_button",
            "service_in_developing",
            "error_no_message_car_name",
            "check_user_enter_edit_car",
-           "error_edit_car_enter",]
+           "error_enter_no_text", ]
