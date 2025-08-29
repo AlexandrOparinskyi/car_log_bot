@@ -42,3 +42,5 @@ class AddCarState(StatesGroup):
 class RefuelState(StatesGroup):
     total_price = State()
     edit_menu = State()
+    edit_to_text = State()
+    edit_to_button = State()

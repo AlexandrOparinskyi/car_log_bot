@@ -6,6 +6,24 @@ from fluentogram import TranslatorHub
 from database import User, Car
 
 
+def get_price_per_liter(total_price: float,
+                        liters: float,) -> float | int:
+    price = round(total_price / liters, 2)
+
+    if str(price)[-1] == "0":
+        return int(price)
+
+    return price
+
+
+def get_comment(comment: str) -> str:
+    if len(comment) > 10:
+        return f"{comment[:10]}..."
+
+    return comment
+
+
+
 def get_refuel_data(i18n: TranslatorHub,
                     data: Dict[str, str | Car],
                     user: User) -> str:
@@ -25,12 +43,23 @@ def get_refuel_data(i18n: TranslatorHub,
         if car.mileage:
             text += f"🛣️ <b>Пробег:</b> {car.mileage}км\n"
 
-    if data.get("total_price"):
-        price = data.get("total_price")
-        if "," in price:
-            price = price.replace(",", ".")
+    price = data.get("total_price")
+    try:
+        total_price = int(price)
+    except ValueError:
         total_price = round(float(price), 2)
-        text += f"💵 <b>Общая сумма:</b> {total_price} ₽\n"
+    text += f"💵 <b>Общая сумма:</b> {total_price} ₽\n"
+
+    if data.get("liters"):
+        liters = data.get("liters")
+
+        price_per_liter = get_price_per_liter(total_price, float(liters))
+        text += (f"💧 <b>Литры:</b> {liters}\n"
+                 f"💰 <b>Цена за литр:</b> {price_per_liter} ₽\n")
+
+    if data.get("comment"):
+        comment = get_comment(data.get("comment"))
+        text += f"📝 <b>Комментарий:</b> {comment}\n"
 
     text += f"📅 <b>Дата заправки:</b> {now_date}\n"
 

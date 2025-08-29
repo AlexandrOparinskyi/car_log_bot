@@ -8,7 +8,7 @@ from states import (HomeState,
                     StartState,
                     InstructionState,
                     GarageState,
-                    AddCarState)
+                    AddCarState, RefuelState)
 
 
 async def home_button(callback: CallbackQuery,
@@ -35,6 +35,9 @@ async def back_button(callback: CallbackQuery,
 
     if callback.data == "garage_back_button_to_edit_menu":
         await dialog_manager.switch_to(state=GarageState.car_info)
+
+    if callback.data == "back_to_edit_params_refuel":
+        await dialog_manager.switch_to(state=RefuelState.edit_menu)
 
 
 async def next_state(callback: CallbackQuery,

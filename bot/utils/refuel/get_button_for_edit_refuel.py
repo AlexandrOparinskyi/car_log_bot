@@ -11,7 +11,7 @@ def get_refuel_button(i18n: TranslatorHub) -> Tuple:
     :return: кортеж с кнопками
     """
     return (
-        (i18n.edit.refuel.total.price.button(), "total_sum"),
+        (i18n.edit.refuel.total.price.button(), "total_price"),
         (i18n.edit.refuel.car.button(), "car"),
         (i18n.edit.refuel.liters.button(), "liters"),
         (i18n.edit.refuel.fuel.type.button(), "fuel_type"),

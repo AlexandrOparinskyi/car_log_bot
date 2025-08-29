@@ -33,10 +33,10 @@ class RefuelRecord(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     car_id: Mapped[int] = mapped_column(ForeignKey('cars.id',
                                                    ondelete="cascade"),
-                                        nullable=False)
+                                        nullable=True)
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id',
                                                     ondelete="cascade"),
-                                         nullable=True)
+                                         nullable=False)
     mileage: Mapped[int] = mapped_column(nullable=True)
     total_price: Mapped[float] = mapped_column(nullable=False)
     liters: Mapped[float] = mapped_column(nullable=True)

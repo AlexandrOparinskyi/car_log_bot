@@ -2,7 +2,7 @@ from .user import User
 from .base import Base
 from .instructions import Instruction
 from .cars import *
-from .refuel_record import RefuelRecord
+from .refuel_record import *
 
 __all__ = ["User",
            "Base",
@@ -10,4 +10,6 @@ __all__ = ["User",
            "Car",
            "EngineTypeEnum",
            "TransmissionTypeEnum",
-           "RefuelRecord",]
+           "RefuelRecord",
+           "FuelTypeEnum",
+           "GasStationTypeEnum"]

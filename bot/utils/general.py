@@ -40,3 +40,10 @@ def get_text_for_select_part(i18n: TranslatorHub) -> Dict[str, Tuple]:
             "engine": (i18n.edit.engine.text(), engine_buttons),
             "transmission": (i18n.edit.transmission.text(),
                              transmission_buttons),}
+
+
+def replace_dot_at_comma(text: str) -> str:
+    if "," in text:
+        return text.replace(",", ".")
+
+    return text
