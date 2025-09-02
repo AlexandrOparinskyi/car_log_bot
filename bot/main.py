@@ -5,9 +5,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub
 
-from dialogs import register_dialogs
-from handlers import register_routers
-from middlewares import TranslatorRunnerMiddleware
+from bot.dialogs import register_dialogs
+from bot.handlers import register_routers
+from bot.middlewares import TranslatorRunnerMiddleware
 
 
 async def main(token: str,
