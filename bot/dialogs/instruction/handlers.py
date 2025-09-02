@@ -2,7 +2,7 @@ from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Button, Select
 
-from states import InstructionState
+from bot.states import InstructionState
 
 
 async def instruction_button(callback: CallbackQuery,

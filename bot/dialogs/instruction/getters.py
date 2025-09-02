@@ -3,7 +3,8 @@ from typing import Dict
 from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from utils import get_all_instructions, get_instruction_by_id
+from bot.utils import (get_all_instructions,
+                       get_instruction_by_id)
 
 
 async def getter_instructions(i18n: TranslatorHub,

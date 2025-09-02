@@ -45,4 +45,4 @@ class User(Base):
 
     @property
     def get_total_cost(self):
-        return sum([float(r.total_price) for r in self.refuel_records])
+        return sum([r.total_price for r in self.refuel_records])

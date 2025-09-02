@@ -2,7 +2,7 @@ from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.kbd import Button, Select, Group
 from aiogram_dialog.widgets.text import Format
 
-from states import InstructionState
+from bot.states import InstructionState
 from .getters import getter_instructions, getter_select_instruction
 from .handlers import select_instruction_button
 from ..general import home_button, back_button

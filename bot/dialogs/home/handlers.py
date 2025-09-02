@@ -2,7 +2,7 @@ from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Button
 
-from states import HomeState, RefuelState
+from bot.states import HomeState, RefuelState
 
 
 async def developer_button(callback: CallbackQuery,

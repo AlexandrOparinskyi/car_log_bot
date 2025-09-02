@@ -22,6 +22,7 @@ class Db:
 class AdminPanel:
     username: str
     password: str
+    secret_key: str
 
 
 @dataclass
@@ -29,6 +30,7 @@ class Config:
     tg_bot: TgBot
     db: Db
     admin_panel: AdminPanel
+
 
 
 def get_config(path: Optional[str] = None) -> Config:
@@ -47,6 +49,7 @@ def get_config(path: Optional[str] = None) -> Config:
         ),
         admin_panel=AdminPanel(
             username=env("ADMIN_USERNAME"),
-            password=env("ADMIN_PASSWORD")
+            password=env("ADMIN_PASSWORD"),
+            secret_key=env("ADMIN_SECRET_KEY")
         )
     )

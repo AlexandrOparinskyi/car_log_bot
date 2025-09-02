@@ -4,11 +4,11 @@ from aiogram_dialog import DialogManager, StartMode, ShowMode
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Select
 
-from states import (HomeState,
-                    StartState,
-                    InstructionState,
-                    GarageState,
-                    AddCarState, RefuelState)
+from bot.states import (HomeState,
+                        StartState,
+                        InstructionState,
+                        GarageState,
+                        AddCarState, RefuelState)
 
 
 async def home_button(callback: CallbackQuery,
@@ -78,5 +78,4 @@ async def service_in_developing(callback: CallbackQuery,
     i18n = dialog_manager.middleware_data.get("i18n")
 
     await callback.answer(i18n.service.developing.text(),
-                           show_alert=True)
-
+                          show_alert=True)

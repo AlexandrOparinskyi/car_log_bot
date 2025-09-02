@@ -4,7 +4,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Group, Select
 from aiogram_dialog.widgets.text import Format
 
-from states import StartState
+from bot.states import StartState
 from .getters import (getter_start,
                       getter_acquaintance,
                       getter_first_car_name,

@@ -3,8 +3,11 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Select
 
-from states import GarageState, AddCarState
-from utils import create_new_car, update_car_by_id, delete_car_by_id, get_user_by_id
+from bot.states import GarageState, AddCarState
+from bot.utils import (create_new_car,
+                       update_car_by_id,
+                       delete_car_by_id,
+                       get_user_by_id)
 
 
 async def garage_button(callback: CallbackQuery,

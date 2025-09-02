@@ -5,9 +5,10 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import ManagedCheckbox, Select, Button
 
-from states import RefuelState, HomeState
-from utils import (create_refuel_record,
-                   replace_dot_at_comma, get_car_by_id)
+from bot.states import RefuelState, HomeState
+from bot.utils import (create_refuel_record,
+                       replace_dot_at_comma,
+                       get_car_by_id)
 
 
 async def enter_total_price_refuel(message: Message,
@@ -16,7 +17,6 @@ async def enter_total_price_refuel(message: Message,
     m_text = replace_dot_at_comma(message.text)
 
     dialog_manager.dialog_data.update(total_price=m_text)
-
 
     await dialog_manager.switch_to(state=RefuelState.edit_menu)
 

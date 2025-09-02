@@ -3,8 +3,8 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 
-from states import StartState, HomeState
-from utils import exists_user, create_user
+from bot.states import StartState, HomeState
+from bot.utils import exists_user, create_user
 
 user_router = Router()
 

@@ -4,8 +4,9 @@ from aiogram.types import User
 from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from utils import get_button_for_add_components, get_text_for_select_part, \
-    generate_text_for_car_edit_menu
+from bot.utils import (get_button_for_add_components,
+                       get_text_for_select_part,
+                       generate_text_for_car_edit_menu)
 
 
 async def getter_start(i18n: TranslatorHub,

@@ -2,7 +2,7 @@ from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.kbd import Group, Button, Row, Url
 from aiogram_dialog.widgets.text import Format
 
-from states import HomeState
+from bot.states import HomeState
 from .getters import (getter_home,
                       getter_write_developer,
                       getter_select_record)

@@ -8,7 +8,7 @@ from .filters import check_enter_refuel_param
 from .getters import (getter_total_price,
                       getter_refuel_edit_menu,
                       getter_refuel_edit_param)
-from states import RefuelState
+from bot.states import RefuelState
 from .handlers import (enter_total_price_refuel,
                        save_refuel,
                        full_tank_checkbox,

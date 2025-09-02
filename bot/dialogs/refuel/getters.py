@@ -4,10 +4,10 @@ from aiogram.types import User
 from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from utils import (get_refuel_data,
-                   get_user_by_id,
-                   get_refuel_button,
-                   get_refuel_edit_text_and_buttons)
+from bot.utils import (get_refuel_data,
+                       get_user_by_id,
+                       get_refuel_button,
+                       get_refuel_edit_text_and_buttons)
 
 
 async def getter_total_price(i18n: TranslatorHub,
@@ -25,7 +25,7 @@ async def getter_refuel_edit_menu(i18n: TranslatorHub,
     car = user.get_selected_main_car
 
     if not dialog_manager.dialog_data.get("car") and car:
-            dialog_manager.dialog_data.update(car=car)
+        dialog_manager.dialog_data.update(car=car)
 
     record_data = get_refuel_data(i18n,
                                   dialog_manager.dialog_data,

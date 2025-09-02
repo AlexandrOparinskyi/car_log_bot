@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import Request
 from sqladmin.authentication import AuthenticationBackend
 
@@ -5,12 +7,12 @@ from config import Config, get_config
 
 
 class SingleUserAuth(AuthenticationBackend):
-    def __init__(self, secret_key: str):
-        super().__init__(secret_key)
-
+    def __init__(self):
         config: Config = get_config()
         self.username = config.admin_panel.username
         self.password = config.admin_panel.password
+
+        super().__init__(config.admin_panel.secret_key)
 
     async def login(self, request: Request) -> bool:
         form = await request.form()

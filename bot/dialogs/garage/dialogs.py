@@ -11,7 +11,7 @@ from dialogs.garage.getters import (getter_garage,
                                     getter_edit_car_part,
                                     getter_delete_car,
                                     getter_limit_car)
-from states import GarageState, AddCarState
+from bot.states import GarageState, AddCarState
 from .handlers import (car_info,
                        add_car_button,
                        enter_car_name,
