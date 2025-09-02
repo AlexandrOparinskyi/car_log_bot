@@ -1,0 +1,452 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.2
+-- Dumped by pg_dump version 17.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: enginetypeenum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.enginetypeenum AS ENUM (
+    'PETROL',
+    'DIESEL',
+    'ELECTRO',
+    'HYBRID'
+);
+
+
+ALTER TYPE public.enginetypeenum OWNER TO postgres;
+
+--
+-- Name: fueltypeenum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.fueltypeenum AS ENUM (
+    '92',
+    '95',
+    '98',
+    '100',
+    'Дизель',
+    'Газ',
+    'Электро'
+);
+
+
+ALTER TYPE public.fueltypeenum OWNER TO postgres;
+
+--
+-- Name: gasstationtypeenum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.gasstationtypeenum AS ENUM (
+    'Лукойл',
+    'Роснефть',
+    'Газпромнефть',
+    'Татнефть',
+    'Shell',
+    'BP',
+    'Другая'
+);
+
+
+ALTER TYPE public.gasstationtypeenum OWNER TO postgres;
+
+--
+-- Name: transmissiontypeenum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.transmissiontypeenum AS ENUM (
+    'AUTOMATIC',
+    'MANUAL',
+    'CVT',
+    'ROBOTIC'
+);
+
+
+ALTER TYPE public.transmissiontypeenum OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO postgres;
+
+--
+-- Name: cars; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cars (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    mark character varying,
+    model character varying,
+    year integer,
+    engine_type public.enginetypeenum,
+    transmission_type public.transmissiontypeenum,
+    mileage integer,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    user_id bigint NOT NULL,
+    color character varying,
+    is_deleted boolean NOT NULL,
+    is_active boolean NOT NULL,
+    is_selected_main boolean NOT NULL
+);
+
+
+ALTER TABLE public.cars OWNER TO postgres;
+
+--
+-- Name: cars_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.cars_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.cars_id_seq OWNER TO postgres;
+
+--
+-- Name: cars_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.cars_id_seq OWNED BY public.cars.id;
+
+
+--
+-- Name: instructions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.instructions (
+    id integer NOT NULL,
+    title character varying NOT NULL,
+    text text NOT NULL
+);
+
+
+ALTER TABLE public.instructions OWNER TO postgres;
+
+--
+-- Name: instructions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.instructions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.instructions_id_seq OWNER TO postgres;
+
+--
+-- Name: instructions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.instructions_id_seq OWNED BY public.instructions.id;
+
+
+--
+-- Name: refuel_records; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.refuel_records (
+    id integer NOT NULL,
+    car_id integer,
+    user_id bigint NOT NULL,
+    mileage integer,
+    total_price double precision NOT NULL,
+    liters double precision,
+    price_per_liter double precision,
+    fuel_type public.fueltypeenum,
+    gas_station public.gasstationtypeenum NOT NULL,
+    "time" double precision,
+    full_tank boolean,
+    comment character varying,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.refuel_records OWNER TO postgres;
+
+--
+-- Name: refuel_records_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.refuel_records_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.refuel_records_id_seq OWNER TO postgres;
+
+--
+-- Name: refuel_records_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.refuel_records_id_seq OWNED BY public.refuel_records.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    username character varying,
+    first_name character varying NOT NULL,
+    last_name character varying,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    is_banned boolean NOT NULL,
+    is_premium boolean NOT NULL,
+    is_admin boolean NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: cars id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cars ALTER COLUMN id SET DEFAULT nextval('public.cars_id_seq'::regclass);
+
+
+--
+-- Name: instructions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.instructions ALTER COLUMN id SET DEFAULT nextval('public.instructions_id_seq'::regclass);
+
+
+--
+-- Name: refuel_records id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.refuel_records ALTER COLUMN id SET DEFAULT nextval('public.refuel_records_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+f87db4632cb7
+\.
+
+
+--
+-- Data for Name: cars; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cars (id, name, mark, model, year, engine_type, transmission_type, mileage, created_at, user_id, color, is_deleted, is_active, is_selected_main) FROM stdin;
+73	Паджерик	Mitsubishi	Pajero Sport	2008	DIESEL	MANUAL	285000	2025-08-28 22:23:27.955897	424306502	Серебристый	f	t	t
+\.
+
+
+--
+-- Data for Name: instructions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.instructions (id, title, text) FROM stdin;
+1	📝 Запись	<b>📝 Добавление записей</b>\n\nЧтобы добавить запись, нажми кнопку «Внести» и выбери тип операции из доступных категорий: \n⛽ Заправка — учет затрат на топливо\n🛠️ Ремонт — фиксация ремонтных работ\n🧽 Мойка — расходы на чистку автомобиля  \n📦 Запчасти — покупка комплектующих\n\nДля каждой операции укажи:\n💰 Сумму расходов\n🛣️ Текущий пробег автомобиля  \n📝 Произвольный комментарий (необязательно)\n📸 Фотографию чека (по желанию)\n\nВсе данные автоматически сохраняются в историю и учитываются при формировании отчетов. Можно редактировать и удалять записи в любое время. Система автоматически определяет периодичность повторяющихся расходов.\n\n📌 Важно: регулярное внесение данных обеспечивает точность отчетов и напоминаний!
+3	📊 Отчеты	<b>📊 Финансовые отчёты</b>\n\nМощная система аналитики поможет понять структуру расходов:\n\n<b>Доступные отчёты:</b>\n📈 <b>За период</b> — месяц, квартал, год или произвольные даты\n🧮 <b>По категориям</b> — детализация по типам расходов\n🚗 <b>По автомобилям</b> — сравнение затрат между машинами\n📅 <b>Динамика расходов</b> — графики изменения затрат во времени\n\n<b>В каждом отчёте:</b>\n💰 Общая сумма расходов\n📊 Визуальные графики и диаграммы\n📋 Детализация по отдельным операциям\n📁 Возможность экспорта в Excel/PDF\n\n<b>Премиум-функции:</b>\n✨ Прогнозирование будущих расходов\n🎯 Выявление аномальных затрат\n💡 Персональные рекомендации по экономии
+2	🔔 Напоминания	<b>🔔 Система напоминаний</b>\n\nУмная система уведомлений заранее предупредит о всех важных событиях:\n\n🛢️ <b>Замена масла</b> — каждые 10-15 тысяч км пробега\n🔧 <b>Техническое обслуживание</b> — согласно регламенту производителя  \n📅 <b>Страховка и техосмотр</b> — за месяц и неделю до окончания\n🛞 <b>Сезонная смена шин</b> — весна/осень based на твоём регионе\n⏰ <b>Кастомные напоминания</b> — о любых своих событиях\n\nНапоминания приходят за 7 и 3 дня до события. Каждое уведомление содержит:\n📋 Описание события\n🔢 Рекомендации по пробегу/времени\n💡 Полезные советы по выполнению\n\nНастройки гибко адаптируются под каждый автомобиль в твоём гараже!
+9	💎 Премиум 	<b>💎 Премиум-аккаунт</b>\n\nРасширь возможности бота с премиум-доступом:\n\n<b>🚗 Для гаража:</b>\n✨ Неограниченное количество автомобилей\n🎨 Персональные иконки и цветовые схемы\n📁 Расширенная история операций\n\n<b>📊 Для аналитики:</b>\n📈 Продвинутые графики и диаграммы\n🔍 Глубокая детализация расходов\n🎯 Кастомные категории и теги\n📁 Экспорт в Excel и PDF с дизайном\n\n<b>🔔 Для напоминаний:</b>\n⏰ Произвольные кастомные уведомления\n📅 Повторяющиеся события любой сложности\n💬 Расширенные шаблоны сообщений\n\n<b>🎁 Дополнительно:</b>\n⭐ Приоритетная техническая поддержка\n🆕 Ранний доступ к новым функциям\n❤️ Поддержка развития проекта\n\nПремиум оформляется раз и навсегда — без подписок и скрытых платежей!
+\.
+
+
+--
+-- Data for Name: refuel_records; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.refuel_records (id, car_id, user_id, mileage, total_price, liters, price_per_liter, fuel_type, gas_station, "time", full_tank, comment, created_at) FROM stdin;
+4	73	424306502	285000	2000	\N	\N	\N	Другая	\N	\N	\N	2025-08-29 17:23:20.191794
+5	73	424306502	285000	2000	\N	\N	\N	Другая	\N	\N	\N	2025-08-29 17:26:29.132999
+6	73	424306502	285000	1000	\N	\N	\N	Другая	\N	\N	\N	2025-08-29 17:27:13.837282
+7	73	424306502	285000	1000	\N	\N	\N	Другая	\N	\N	\N	2025-08-29 17:27:48.856287
+8	73	424306502	285000	2000	\N	\N	\N	Другая	\N	t	\N	2025-08-29 17:28:55.75828
+9	73	424306502	285000	5000	\N	\N	\N	Другая	\N	\N	\N	2025-08-29 17:29:12.486672
+10	73	424306502	285000	16	\N	\N	\N	Другая	\N	f	\N	2025-08-29 17:29:53.943153
+11	73	424306502	285000	200	\N	\N	\N	Другая	\N	t	\N	2025-08-29 17:30:07.228933
+12	73	424306502	285000	1000	20	\N	\N	Другая	\N	f	Okay	2025-08-29 18:42:00.205806
+13	73	424306502	285000	1200.99	15	80.07	\N	Другая	\N	f	wrvqwner;lnwerlvqwer	2025-08-29 18:48:51.084611
+14	73	424306502	285000	1000.56	12.3	81.35	\N	Другая	\N	f	wervqwrevq	2025-08-29 18:59:09.550267
+15	73	424306502	285000	1400	15	93.33	\N	Другая	\N	f	\N	2025-08-29 19:01:17.939435
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, username, first_name, last_name, created_at, is_banned, is_premium, is_admin) FROM stdin;
+424306502	oparinskyi	Александр	Опаринский	2025-08-28 22:09:08.811419	f	f	f
+\.
+
+
+--
+-- Name: cars_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cars_id_seq', 73, true);
+
+
+--
+-- Name: instructions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.instructions_id_seq', 9, true);
+
+
+--
+-- Name: refuel_records_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.refuel_records_id_seq', 15, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: cars cars_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cars
+    ADD CONSTRAINT cars_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instructions instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.instructions
+    ADD CONSTRAINT instructions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: refuel_records refuel_records_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.refuel_records
+    ADD CONSTRAINT refuel_records_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: cars cars_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cars
+    ADD CONSTRAINT cars_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: refuel_records refuel_records_car_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.refuel_records
+    ADD CONSTRAINT refuel_records_car_id_fkey FOREIGN KEY (car_id) REFERENCES public.cars(id) ON DELETE CASCADE;
+
+
+--
+-- Name: refuel_records refuel_records_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.refuel_records
+    ADD CONSTRAINT refuel_records_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

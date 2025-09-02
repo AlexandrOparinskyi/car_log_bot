@@ -4,7 +4,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Button, Group, Select
 from aiogram_dialog.widgets.text import Format
 
-from dialogs.garage.getters import (getter_garage,
+from .getters import (getter_garage,
                                     getter_car_info,
                                     getter_car_name,
                                     getter_edit_car_menu,
