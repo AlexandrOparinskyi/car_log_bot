@@ -53,6 +53,3 @@ class Car(Base):
     refuel_record = relationship("RefuelRecord",
                                  back_populates="car",
                                  lazy="selectin")
-
-    def __repr__(self):
-        return self.name
