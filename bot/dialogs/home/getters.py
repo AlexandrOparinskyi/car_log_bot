@@ -10,9 +10,13 @@ async def getter_home(i18n: TranslatorHub,
                       event_from_user: User,
                       **kwargs) -> Dict[str, str]:
     user = await get_user_by_id(event_from_user.id)
+    refuel_count = len(user.refuel_records)
+    total_cost = user.get_total_cost
 
     return {"home_text": i18n.home.text(username=user.first_name,
-                                        car_count=len(user.cars)),
+                                        car_count=len(user.cars),
+                                        refuel_count=refuel_count,
+                                        total_cost=total_cost),
             "add_record_button": i18n.add.record.button(),
             "garage_button": i18n.garage.button(),
             "lk_button": i18n.lk.button(),

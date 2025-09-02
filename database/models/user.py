@@ -42,3 +42,7 @@ class User(Base):
         selected_cars = list(
             filter(lambda car: car.is_selected_main == True, self.cars))
         return selected_cars[0] if selected_cars else None
+
+    @property
+    def get_total_cost(self):
+        return sum([float(r.total_price) for r in self.refuel_records])
