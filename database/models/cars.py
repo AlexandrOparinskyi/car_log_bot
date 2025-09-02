@@ -14,6 +14,7 @@ class EngineTypeEnum(enum.Enum):
     DIESEL = "Дизель"
     ELECTRO = "Электро"
     HYBRID = "Гибрид"
+    GAS = "Газ"
 
 
 class TransmissionTypeEnum(enum.Enum):
@@ -52,3 +53,6 @@ class Car(Base):
     refuel_record = relationship("RefuelRecord",
                                  back_populates="car",
                                  lazy="selectin")
+
+    def __repr__(self):
+        return self.name

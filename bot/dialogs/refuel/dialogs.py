@@ -7,13 +7,14 @@ from aiogram_dialog.widgets.text import Format
 from .filters import check_enter_refuel_param
 from .getters import (getter_total_price,
                       getter_refuel_edit_menu,
-                      getter_refuel_edit_text)
+                      getter_refuel_edit_param)
 from states import RefuelState
 from .handlers import (enter_total_price_refuel,
                        save_refuel,
                        full_tank_checkbox,
                        refuel_edit_params,
-                       enter_refuel_param)
+                       enter_refuel_param,
+                       select_refuel_param_button)
 from ..general import (error_enter_no_text,
                        home_button,
                        back_button)
@@ -62,10 +63,21 @@ refuel_dialog = Dialog(
         Button(Format("{back_button}"),
                id="back_to_edit_params_refuel",
                on_click=back_button),
-        getter=getter_refuel_edit_text,
+        getter=getter_refuel_edit_param,
         state=RefuelState.edit_to_text
     ),
     Window(
+        Format("{refuel_edit_text}"),
+        Group(Select(Format("{item[0]}"),
+                     id="refuel_param_button",
+                     item_id_getter=lambda x: x[1],
+                     items="buttons",
+                     on_click=select_refuel_param_button),
+              width=2),
+        Button(Format("{back_button}"),
+               id="back_to_edit_params_refuel",
+               on_click=back_button),
+        getter=getter_refuel_edit_param,
         state=RefuelState.edit_to_button
     )
 )

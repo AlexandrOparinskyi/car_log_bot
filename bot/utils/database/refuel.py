@@ -6,7 +6,7 @@ from sqlalchemy import insert
 from database import (Car,
                       get_async_session,
                       RefuelRecord,
-                      FuelTypeEnum, GasStationTypeEnum)
+                      FuelTypeEnum, GasStationTypeEnum, EngineTypeEnum)
 from ..refuel import get_price_per_liter
 
 
@@ -25,11 +25,18 @@ async def create_refuel_record(user_id: int,
     updated_values = {"user_id": user_id,
                       "total_price": float(total_price),
                       "created_at": datetime.now(),
-                      "full_tank": full_tank, }
+                      "full_tank": full_tank}
 
     if car:
         updated_values.update(car_id=car.id,
                               mileage=car.mileage)
+        if car.engine_type == EngineTypeEnum.PETROL:
+            updated_values.update(fuel_type=FuelTypeEnum.PETROL_95)
+        if car.engine_type == EngineTypeEnum.DIESEL:
+            updated_values.update(fuel_type=FuelTypeEnum.DIESEL)
+        if car.engine_type == EngineTypeEnum.GAS:
+            updated_values.update(fuel_type=FuelTypeEnum.GAS)
+
     if liters:
         price_per_liter = get_price_per_liter(float(total_price),
                                               float(liters))
@@ -46,7 +53,7 @@ async def create_refuel_record(user_id: int,
     if comment:
         updated_values.update(comment=comment)
     if date:
-        updated_values.update(date=date)
+        updated_values.update(created_at=date)
 
     async with get_async_session() as session:
         await session.execute(insert(RefuelRecord).values(
