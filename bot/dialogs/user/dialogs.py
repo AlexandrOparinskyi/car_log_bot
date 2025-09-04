@@ -52,6 +52,12 @@ user_dialog = Dialog(
         Button(Format("{copy_text_link_button}"),
                id="copy_text_link_button",
                on_click=invite_friends),
+        Button(Format("{back_button}"),
+               id="back_button_to_user_home",
+               on_click=back_button),
+        Button(Format("{home_button}"),
+               id="home_button",
+               on_click=home_button),
         getter=getter_copy_link,
         state=UserState.copy_link
     )

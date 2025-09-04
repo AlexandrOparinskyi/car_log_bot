@@ -62,3 +62,7 @@ garage-limit-text =
 
 add-car-button = ➕ Добавить машину
 delete-car-button = ❌ Удалить машину
+
+documents-button = 📋 Документы
+report-button = 📈 Расходы
+car-data-button = 📇 Данные

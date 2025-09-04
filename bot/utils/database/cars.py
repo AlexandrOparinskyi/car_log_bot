@@ -1,14 +1,16 @@
 from typing import Optional
 
-from sqlalchemy import select, insert, delete, update, Engine
+from sqlalchemy import select, insert, update
 
 from database import Car, get_async_session
 from database.models.cars import EngineTypeEnum, TransmissionTypeEnum
+from .user import get_user_by_id
 
 
 async def get_car_by_id(car_id: int) -> Car:
     """
     Возвращает машину по переданному ID
+
     :param car_id: ID машины
     :return: машину
     """
@@ -21,11 +23,16 @@ async def create_new_car(name: str,
                          is_selected_main: bool = False) -> int:
     """
     Создает машину в базе данных с одним именем
+
     :param user_id: ID пользователя
     :param name: название/кличка машины
     :param is_selected_main: Выбрана ли основной
     :return:
     """
+    user = await get_user_by_id(user_id)
+    if not user.count_car:
+        is_selected_main = True
+
     async with get_async_session() as session:
         result = await session.execute(insert(Car).values(
             name=name,
@@ -40,6 +47,7 @@ async def create_new_car(name: str,
 async def delete_car_by_id(car_id: int) -> None:
     """
     Удаление машины из базу данных под выбранным ID
+
     :param car_id: ID машины
     :return:
     """
@@ -65,6 +73,7 @@ async def update_car_by_id(car_id: int,
                            **kwargs) -> None:
     """
     Обновляет машину по тем данным, которые передали
+
     :param car_id: ID машины
     :param car_name: имя
     :param mark: марка

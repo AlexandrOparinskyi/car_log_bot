@@ -26,7 +26,9 @@ async def getter_garage(i18n: TranslatorHub,
                                             cars_count=len(car_buttons)),
             "home_button": i18n.home.button(),
             "car_buttons": car_buttons,
-            "add_car_button": i18n.add.car.button()}
+            "add_car_button": i18n.add.car.button(),
+            "documents_button": i18n.documents.button(),
+            "report_button": i18n.report.button()}
 
 
 async def getter_car_info(i18n: TranslatorHub,
@@ -40,6 +42,7 @@ async def getter_car_info(i18n: TranslatorHub,
 
     return {"car_info_text": i18n.car.info.text(car_name=car.name,
                                                 car_data=car_data),
+            "car_data_button": i18n.car.data.button(),
             "back_button": i18n.back.button(),
             "edit_car_buttons": edit_car_buttons,
             "save_car_button": i18n.end.edit.car.button(),
@@ -61,6 +64,7 @@ async def getter_edit_car_menu(i18n: TranslatorHub,
 
     return {"edit_car_menu_text": i18n.edit.car.menu.text(car_name=car_name,
                                                           car_data=car_data),
+            "car_data_button": i18n.car.data.button(),
             "buttons": buttons,
             "save_car_button": i18n.end.edit.car.button(),
             "home_button": i18n.home.button()}

@@ -35,4 +35,6 @@ async def getter_copy_link(i18n: TranslatorHub,
             f"{event_from_user.id}</code>")
 
     return {"copy_link_text": link,
+            "back_button": i18n.back.button(),
+            "home_button": i18n.home.button(),
             "copy_text_link_button": i18n.copy.text.link.button()}

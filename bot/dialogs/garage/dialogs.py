@@ -1,7 +1,7 @@
 from aiogram.enums import ContentType
 from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.input import MessageInput
-from aiogram_dialog.widgets.kbd import Button, Group, Select
+from aiogram_dialog.widgets.kbd import Button, Group, Select, Row
 from aiogram_dialog.widgets.text import Format
 
 from .getters import (getter_garage,
@@ -40,6 +40,13 @@ garage_dialog = Dialog(
         Button(Format("{add_car_button}"),
                id="add_car_button",
                on_click=add_car_button),
+        Row(Button(Format("{documents_button}"),
+                   id="documents_button",
+                   on_click=service_in_developing),
+            Button(Format("{report_button}"),
+                   id="report_button",
+                   on_click=service_in_developing),
+            ),
         Button(Format("{home_button}"),
                id="home_button",
                on_click=home_button),
@@ -53,6 +60,9 @@ garage_dialog = Dialog(
                      item_id_getter=lambda x: x[1],
                      items="edit_car_buttons",
                      on_click=select_part_car_to_edit),
+              Button(Format("{car_data_button}"),
+                     id="car_data_button",
+                     on_click=service_in_developing),
               width=2),
         Button(Format("{save_car_button}"),
                id="garage_save_car_button",
@@ -136,6 +146,9 @@ add_car_dialog = Dialog(
                      item_id_getter=lambda x: x[1],
                      items="buttons",
                      on_click=select_part_car_to_edit),
+              Button(Format("{car_data_button}"),
+                     id="car_data_button",
+                     on_click=service_in_developing),
               width=2),
         Button(Format("{save_car_button}"),
                id="save_car_button",
