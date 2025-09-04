@@ -27,6 +27,7 @@ services:
     build:
       context: .
       dockerfile: web/Dockerfile
+    container_name: web
     env_file:
       - .env
     depends_on:
@@ -34,6 +35,7 @@ services:
 
   nginx:
     image: nginx:alpine
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
