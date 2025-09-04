@@ -3,7 +3,9 @@ from typing import Dict
 from aiogram.types import User
 from fluentogram import TranslatorHub
 
-from bot.utils import get_user_by_id
+from bot.utils import (get_user_by_id,
+                       get_current_date,
+                       plural_records)
 
 
 async def getter_home(i18n: TranslatorHub,
@@ -12,11 +14,15 @@ async def getter_home(i18n: TranslatorHub,
     user = await get_user_by_id(event_from_user.id)
     refuel_count = len(user.refuel_records)
     cost_count = user.get_total_cost
+    current_date = get_current_date(user.created_at)
+    records = plural_records(1)
 
     return {"home_text": i18n.home.text(username=user.first_name,
                                         car_count=len(user.count_car),
                                         refuel_count=refuel_count,
-                                        cost_count=cost_count),
+                                        cost_count=cost_count,
+                                        current_date=current_date,
+                                        records=records),
             "add_record_button": i18n.add.record.button(),
             "garage_button": i18n.garage.button(),
             "lk_button": i18n.lk.button(),
