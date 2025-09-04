@@ -11,10 +11,9 @@ admin = Admin(app=app,
               engine=engine,
               authentication_backend=authentication_backend,
               title="Admin panel",
-              base_url="/")
+              base_url="/admin")
 
 admin.add_view(UserAdmin)
-
 
 @app.middleware("http")
 async def correct_scheme_middleware(request: Request, call_next):

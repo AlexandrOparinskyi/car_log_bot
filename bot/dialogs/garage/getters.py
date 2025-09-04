@@ -4,11 +4,12 @@ from aiogram.types import User
 from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from bot.utils import (get_user_by_id, get_car_by_id,
-                   get_button_for_add_components,
-                   generate_text_for_car_edit_menu,
-                   get_text_for_select_part,
-                   generate_car_info)
+from bot.utils import (get_user_by_id,
+                       get_car_by_id,
+                       get_button_for_add_components,
+                       generate_text_for_car_edit_menu,
+                       get_text_for_select_part,
+                       generate_car_info)
 
 
 async def getter_garage(i18n: TranslatorHub,

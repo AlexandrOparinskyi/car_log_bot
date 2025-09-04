@@ -5,12 +5,12 @@ from aiogram_dialog.widgets.kbd import Button, Group, Select
 from aiogram_dialog.widgets.text import Format
 
 from .getters import (getter_garage,
-                                    getter_car_info,
-                                    getter_car_name,
-                                    getter_edit_car_menu,
-                                    getter_edit_car_part,
-                                    getter_delete_car,
-                                    getter_limit_car)
+                      getter_car_info,
+                      getter_car_name,
+                      getter_edit_car_menu,
+                      getter_edit_car_part,
+                      getter_delete_car,
+                      getter_limit_car)
 from bot.states import GarageState, AddCarState
 from .handlers import (car_info,
                        add_car_button,

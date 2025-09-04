@@ -12,6 +12,7 @@ from ..garage import garage_button
 from ..general import (service_in_developing,
                        home_button)
 from ..instruction import instruction_button
+from ..user import user_home_button
 
 home_dialog = Dialog(
     Window(
@@ -23,8 +24,8 @@ home_dialog = Dialog(
                          id="garage_button",
                          on_click=garage_button),
                   Button(Format("{lk_button}"),
-                         id="lk_button",
-                         on_click=service_in_developing)),
+                         id="user_home_button",
+                         on_click=user_home_button)),
               Row(Button(Format("{instructions_button}"),
                          id="instructions_button",
                          on_click=instruction_button),

@@ -23,6 +23,7 @@ class User(Base):
                                             nullable=False)
     is_premium: Mapped[bool] = mapped_column(default=False)
     is_admin: Mapped[bool] = mapped_column(default=False)
+    bonus_points: Mapped[int] = mapped_column(default=0)
 
     cars = relationship("Car", back_populates="user", lazy="selectin")
     refuel_records = relationship("RefuelRecord",

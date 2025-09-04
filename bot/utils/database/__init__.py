@@ -12,4 +12,5 @@ __all__ = ["exists_user",
            "delete_car_by_id",
            "create_new_car",
            "update_car_by_id",
-           "create_refuel_record"]
+           "create_refuel_record",
+           "add_bonus_points"]

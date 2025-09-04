@@ -44,3 +44,9 @@ class RefuelState(StatesGroup):
     edit_menu = State()
     edit_to_text = State()
     edit_to_button = State()
+
+
+class UserState(StatesGroup):
+    user_home = State()
+    invite_friends = State()
+    copy_link = State()

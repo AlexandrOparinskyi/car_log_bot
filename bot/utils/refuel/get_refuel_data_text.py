@@ -51,6 +51,7 @@ def get_refuel_data(i18n: TranslatorHub,
     text = f"\n\n"
     car = data.get("car")
     now_date = datetime.now().strftime("%d.%m.%Y")
+    fuel_type = None
 
     if car:
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"
