@@ -37,7 +37,7 @@ async def getter_write_developer(i18n: TranslatorHub,
     return {"write_developer_text": i18n.write.developer.text(),
             "developer_button": i18n.developer.button(),
             "developer_url": i18n.developer.url(),
-            "home_button": i18n.home.button(),}
+            "home_button": i18n.home.button()}
 
 
 async def getter_select_record(i18n: TranslatorHub,

@@ -19,6 +19,7 @@ admin.add_view(UserAdmin)
 admin.add_view(CarAdmin)
 admin.add_view(RefuelRecordAdmin)
 
+
 @app.middleware("http")
 async def correct_scheme_middleware(request: Request, call_next):
     # Принудительно устанавливаем схему как HTTPS

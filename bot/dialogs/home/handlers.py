@@ -12,8 +12,8 @@ async def developer_button(callback: CallbackQuery,
 
 
 async def add_record_button(callback: CallbackQuery,
-                        button: Button,
-                        dialog_manager: DialogManager):
+                            button: Button,
+                            dialog_manager: DialogManager):
     await dialog_manager.switch_to(HomeState.select_record)
 
 

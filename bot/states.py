@@ -50,3 +50,7 @@ class UserState(StatesGroup):
     user_home = State()
     invite_friends = State()
     copy_link = State()
+
+
+class ServiceState(StatesGroup):
+    total_price = State()

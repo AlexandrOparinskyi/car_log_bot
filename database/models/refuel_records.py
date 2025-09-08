@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Enum, values, DateTime, func
+from sqlalchemy import ForeignKey, Enum, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -37,6 +37,7 @@ class RefuelRecord(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id',
                                                     ondelete="cascade"),
                                          nullable=False)
+
     mileage: Mapped[int] = mapped_column(nullable=True)
     total_price: Mapped[float] = mapped_column(nullable=False)
     liters: Mapped[float] = mapped_column(nullable=True)

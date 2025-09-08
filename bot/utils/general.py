@@ -25,7 +25,7 @@ def get_text_for_select_part(i18n: TranslatorHub) -> Dict[str, Tuple]:
     Функция для генерации текста при добавлении определенного параметра.
     При изменении двигателя или коробки так же передаются кнопки
     :param i18n: словарь слов
-    :return: Словарь с текстами и кнопками
+    :return: словарь с текстами и кнопками
     """
     engine_buttons = [(i.value, str(i).split(".")[-1])
                       for i in EngineTypeEnum]
@@ -39,10 +39,16 @@ def get_text_for_select_part(i18n: TranslatorHub) -> Dict[str, Tuple]:
             "mileage": (i18n.edit.mileage.text(), []),
             "engine": (i18n.edit.engine.text(), engine_buttons),
             "transmission": (i18n.edit.transmission.text(),
-                             transmission_buttons),}
+                             transmission_buttons)}
 
 
 def replace_dot_at_comma(text: str) -> str:
+    """
+    Заменяет запятую на точку для правильной цены
+
+    :param text: ввод пользователя
+    "return" текст
+    """
     if "," in text:
         return text.replace(",", ".")
 

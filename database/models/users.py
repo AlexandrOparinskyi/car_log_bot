@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional
 
 from sqlalchemy import BigInteger, DateTime, func, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -29,13 +29,15 @@ class User(Base):
     refuel_records = relationship("RefuelRecord",
                                   back_populates="user",
                                   lazy="selectin")
+    service_records = relationship("ServiceRecord", back_populates="user")
 
     @property
     def active_cars(self):
-        return [car for car in self.cars if not car.is_deleted and car.is_active]
+        return [car for car in self.cars
+                if not car.is_deleted and car.is_active]
 
     @property
-    def count_car(self) :
+    def count_car(self):
         return [car for car in self.cars if not car.is_deleted]
 
     @property

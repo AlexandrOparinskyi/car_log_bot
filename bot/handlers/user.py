@@ -30,7 +30,6 @@ async def command_start(message: Message,
                                         message.from_user.first_name,
                                         message.from_user.last_name)
 
-
         if ref_code and user_id != int(ref_code):
             await add_bonus_points(int(ref_code))
 

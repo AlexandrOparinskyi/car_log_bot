@@ -32,7 +32,6 @@ class Config:
     admin_panel: AdminPanel
 
 
-
 def get_config(path: Optional[str] = None) -> Config:
     env.read_env(path)
     return Config(

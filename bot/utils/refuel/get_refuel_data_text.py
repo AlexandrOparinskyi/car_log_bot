@@ -1,9 +1,13 @@
-from datetime import datetime, date
+from datetime import datetime
 from typing import Dict
 
 from fluentogram import TranslatorHub
 
-from database import User, Car, EngineTypeEnum, FuelTypeEnum, GasStationTypeEnum
+from database import (User,
+                      Car,
+                      EngineTypeEnum,
+                      FuelTypeEnum,
+                      GasStationTypeEnum)
 
 
 def get_price_per_liter(total_price: float,
@@ -37,7 +41,6 @@ def get_comment(comment: str) -> str:
     return comment
 
 
-
 def get_refuel_data(i18n: TranslatorHub,
                     data: Dict[str, str | Car | datetime],
                     user: User) -> str:
@@ -48,7 +51,7 @@ def get_refuel_data(i18n: TranslatorHub,
     :param user: User
     :return: текст
     """
-    text = f"\n\n"
+    text = "\n\n"
     car = data.get("car")
     now_date = datetime.now().strftime("%d.%m.%Y")
     fuel_type = None

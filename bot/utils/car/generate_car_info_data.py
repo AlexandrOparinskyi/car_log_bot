@@ -27,7 +27,7 @@ def generate_car_info(car: Car, data: Dict[str, str]) -> str:
         car_data["mileage"] = f"• 🛣️ <b>Общий пробег:</b> {car.mileage}\n"
     if car.engine_type:
         car_data["engine"] = (f"• ⚙️ <b>Двигатель:</b> "
-                               f"{car.engine_type.value}\n")
+                              f"{car.engine_type.value}\n")
     if car.transmission_type:
         car_data["transmission"] = (f"• 🔄 <b>Трансмиссия:</b> "
                                     f"{car.transmission_type.value}\n")
@@ -39,7 +39,8 @@ def generate_car_info(car: Car, data: Dict[str, str]) -> str:
     if data.get("year"):
         car_data["year"] = f"• 📅 <b>Год выпуска:</b> {data.get('year')}\n"
     if data.get("color"):
-        car_data["color"] = f"• 🎨 <b>Цветовое решение:</b> {data.get('color')}\n"
+        car_data["color"] = (f"• 🎨 <b>Цветовое решение:</b>"
+                             f" {data.get('color')}\n")
     if data.get("mileage"):
         car_data["mileage"] = (f"• 🛣️ <b>Общий пробег:</b> "
                                f"{data.get('mileage')}\n")

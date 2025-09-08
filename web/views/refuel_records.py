@@ -52,12 +52,16 @@ class RefuelRecordAdmin(ModelView, model=RefuelRecord):
                            RefuelRecord.created_at)
 
     column_formatters = {
-        RefuelRecord.created_at: lambda m, a: m.created_at.strftime("%d.%m.%Y %H:%M"),
+        RefuelRecord.created_at: lambda m, a: m.created_at.strftime(
+            "%d.%m.%Y %H:%M"
+        ),
         RefuelRecord.user: lambda m, a: f"{m.user.first_name} ({m.user.id})",
         RefuelRecord.car: lambda m, a: m.car.name,
     }
     column_formatters_detail = {
-        RefuelRecord.created_at: lambda m, a: m.created_at.strftime("%d.%m.%Y %H:%M"),
+        RefuelRecord.created_at: lambda m, a: m.created_at.strftime(
+            "%d.%m.%Y %H:%M"
+        ),
         RefuelRecord.user: lambda m, a: f"{m.user.first_name} ({m.user.id})",
         RefuelRecord.car: lambda m, a: m.car.name,
         RefuelRecord.fuel_type: lambda m, a: m.fuel_type.value,

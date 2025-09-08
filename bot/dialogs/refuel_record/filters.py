@@ -3,7 +3,7 @@ from aiogram_dialog import DialogManager, ShowMode
 
 
 async def check_enter_refuel_param(message: Message,
-                                         dialog_manager: DialogManager):
+                                   dialog_manager: DialogManager):
     i18n = dialog_manager.middleware_data.get('i18n')
     m_text = i18n.error.enter.refuel.total.price.text()
     refuel_param = dialog_manager.dialog_data.get("refuel_param")

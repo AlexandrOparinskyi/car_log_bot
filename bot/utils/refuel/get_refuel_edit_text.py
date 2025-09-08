@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, date
+from datetime import timedelta, date
 from typing import Tuple, List, Optional
 
 from fluentogram import TranslatorHub
@@ -6,9 +6,11 @@ from fluentogram import TranslatorHub
 from database import Car, FuelTypeEnum, GasStationTypeEnum
 
 
-def get_refuel_edit_text_and_buttons(i18n: TranslatorHub,
-                                     refuel_param: str,
-                                     cars: List[Optional[Car]]) -> Tuple[str, List]:
+def get_refuel_edit_text_and_buttons(
+        i18n: TranslatorHub,
+        refuel_param: str,
+        cars: List[Optional[Car]]
+) -> Tuple[str, List]:
     text = i18n.refuel.edit.error.param.text()
     buttons = []
 

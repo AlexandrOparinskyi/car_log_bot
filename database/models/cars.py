@@ -6,7 +6,7 @@ from sqlalchemy import func, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
-from .user import User
+from .users import User
 
 
 class EngineTypeEnum(enum.Enum):
@@ -53,3 +53,4 @@ class Car(Base):
     refuel_record = relationship("RefuelRecord",
                                  back_populates="car",
                                  lazy="selectin")
+    service_records = relationship("ServiceRecord", back_populates="car")
