@@ -3,7 +3,9 @@ from sqladmin import Admin
 
 from database import engine
 from .auth import SingleUserAuth
-from .views import UserAdmin
+from .views import (UserAdmin,
+                    CarAdmin,
+                    RefuelRecordAdmin)
 
 app = FastAPI()
 authentication_backend = SingleUserAuth()
@@ -14,6 +16,8 @@ admin = Admin(app=app,
               base_url="/admin")
 
 admin.add_view(UserAdmin)
+admin.add_view(CarAdmin)
+admin.add_view(RefuelRecordAdmin)
 
 @app.middleware("http")
 async def correct_scheme_middleware(request: Request, call_next):
