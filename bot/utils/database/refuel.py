@@ -7,7 +7,7 @@ from database import (Car,
                       get_async_session,
                       RefuelRecord,
                       FuelTypeEnum, GasStationTypeEnum, EngineTypeEnum)
-from ..refuel import get_price_per_liter
+from ..refuel_record import get_price_per_liter
 
 
 async def create_refuel_record(user_id: int,

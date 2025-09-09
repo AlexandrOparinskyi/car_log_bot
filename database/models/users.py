@@ -43,7 +43,7 @@ class User(Base):
     @property
     def get_selected_main_car(self):
         selected_cars = list(
-            filter(lambda car: car.is_selected_main == True, self.cars))
+            filter(lambda car: car.is_selected_main is True, self.cars))
         return selected_cars[0] if selected_cars else None
 
     @property

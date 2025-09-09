@@ -53,4 +53,5 @@ class UserState(StatesGroup):
 
 
 class ServiceState(StatesGroup):
-    total_price = State()
+    select_type = State()
+    edit_menu = State()

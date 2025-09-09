@@ -7,7 +7,9 @@ from .getters import (getter_home,
                       getter_write_developer,
                       getter_select_record)
 from .handlers import (developer_button,
-                       add_record_button, refuel_button)
+                       add_record_button,
+                       refuel_button,
+                       service_button)
 from ..garage import garage_button
 from ..general import (service_in_developing,
                        home_button)
@@ -55,9 +57,9 @@ home_dialog = Dialog(
         Format("{add_record_text}"),
         Group(Button(Format("{service_button}"),
                      id="service_button",
-                     on_click=service_in_developing),
+                     on_click=service_button),
               Button(Format("{refuel_button}"),
-                     id="add_record_button",
+                     id="refuel_button",
                      on_click=refuel_button),
               Button(Format("{purchase_button}"),
                      id="purchase_button",

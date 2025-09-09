@@ -13,6 +13,7 @@ from bot.utils import (get_refuel_data,
 async def getter_total_price(i18n: TranslatorHub,
                              **kwargs) -> Dict[str, str]:
     return {"total_price_text": i18n.refuel.total.price.text(),
+            "back_button": i18n.back.button(),
             "home_button": i18n.home.button()}
 
 

@@ -58,8 +58,6 @@ def get_refuel_data(i18n: TranslatorHub,
 
     if car:
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"
-        if car.mileage:
-            text += f"🛣️ <b>Пробег:</b> {car.mileage}км\n"
         if car.engine_type == EngineTypeEnum.PETROL:
             fuel_type = FuelTypeEnum.PETROL_95.value
         if car.engine_type == EngineTypeEnum.DIESEL:

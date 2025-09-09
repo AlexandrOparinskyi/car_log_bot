@@ -1,10 +1,20 @@
+import enum
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import ForeignKey, Text, DateTime, func, Numeric
+from sqlalchemy import ForeignKey, Text, DateTime, func, Numeric, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+
+class ServiceTypeEnum(enum.Enum):
+    REPLACEMENT = "Замена"
+    MAINTENANCE = "ТО"
+    DIAGNOSTICS = "Диагностика"
+    REPAIR = "Ремонт"
+    BODY_WORK = "Кузовные работы"
+    OTHER = "Другое"
 
 
 class ServiceRecord(Base):
@@ -24,6 +34,9 @@ class ServiceRecord(Base):
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     total_price: Mapped[float] = mapped_column(Numeric(20, 2),
                                                nullable=False)
+    service_type: Mapped[ServiceTypeEnum] = mapped_column(
+        Enum(ServiceTypeEnum)
+    )
 
     service_center: Mapped[Optional[str]] = mapped_column(nullable=True)
     comment: Mapped[Optional[str]] = mapped_column(nullable=True)

@@ -44,6 +44,9 @@ async def back_button(callback: CallbackQuery,
     if callback.data == "back_button_to_user_home":
         await dialog_manager.switch_to(state=UserState.user_home)
 
+    if callback.data == "back_button_to_select_record":
+        await dialog_manager.start(state=HomeState.select_record)
+
 
 async def next_state(callback: CallbackQuery,
                      button: Button,

@@ -16,4 +16,5 @@ __all__ = ["User",
            "GasStationTypeEnum",
            "ServiceRecord",
            "ServicePart",
-           "ServiceWork"]
+           "ServiceWork",
+           "ServiceTypeEnum"]
