@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import func, DateTime, ForeignKey
+from sqlalchemy import func, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -25,7 +25,10 @@ class TransmissionTypeEnum(enum.Enum):
 
 
 class Car(Base):
-    __tablename__ = 'cars'
+    __tablename__ = "cars"
+    __table_args__ = (
+        UniqueConstraint("user_id", "is_selected_main"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
