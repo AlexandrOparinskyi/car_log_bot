@@ -8,7 +8,7 @@ from bot.utils import (get_buttons_for_select_service_type,
                    get_button_for_service_edit_menu,
                    get_user_by_id,
                    get_service_data_text)
-from utils import get_service_edit_text_and_buttons
+from bot.utils import get_service_edit_text_and_buttons
 
 
 async def getter_select_type(i18n: TranslatorHub,

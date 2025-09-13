@@ -6,7 +6,8 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Select, Button, Calendar
 
 from bot.states import ServiceState
-from utils import replace_dot_at_comma, get_car_by_id
+from bot.utils import (replace_dot_at_comma,
+                       get_car_by_id)
 
 
 async def select_service_type(callback: CallbackQuery,
