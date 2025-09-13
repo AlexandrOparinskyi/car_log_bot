@@ -1,5 +1,8 @@
+import locale
+import logging
 from dataclasses import dataclass
 from typing import Optional
+
 from environs import env
 
 
@@ -33,6 +36,14 @@ class Config:
 
 
 def get_config(path: Optional[str] = None) -> Config:
+    logger = logging.getLogger(__name__)
+
+    try:
+        locale.setlocale(locale.LC_TIME, 'ru_RU')
+        logger.info("Russian locale installed")
+    except locale.Error:
+        logger.error("Failed to install Russian locale. Default locale is used")
+
     env.read_env(path)
     return Config(
         tg_bot=TgBot(

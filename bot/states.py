@@ -55,3 +55,6 @@ class UserState(StatesGroup):
 class ServiceState(StatesGroup):
     select_type = State()
     edit_menu = State()
+    param_edit_text = State()
+    param_edit_button = State()
+    calendar = State()

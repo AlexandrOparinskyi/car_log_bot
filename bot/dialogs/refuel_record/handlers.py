@@ -15,7 +15,6 @@ async def enter_total_price_refuel(message: Message,
                                    widget: MessageInput,
                                    dialog_manager: DialogManager):
     m_text = replace_dot_at_comma(message.text)
-
     dialog_manager.dialog_data.update(total_price=m_text)
 
     await dialog_manager.switch_to(state=RefuelState.edit_menu)

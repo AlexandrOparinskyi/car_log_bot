@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import BotCommand
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub
 
@@ -18,6 +19,15 @@ async def main(token: str,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
     dp: Dispatcher = Dispatcher(storage=MemoryStorage())
+
+    await bot.set_my_commands(
+        commands=[
+            BotCommand(
+                command='home',
+                description="♻️ В главное меню"
+            )
+        ]
+    )
 
     dp.update.middleware(TranslatorRunnerMiddleware())
     register_routers(dp)

@@ -26,9 +26,6 @@ class TransmissionTypeEnum(enum.Enum):
 
 class Car(Base):
     __tablename__ = "cars"
-    __table_args__ = (
-        UniqueConstraint("user_id", "is_selected_main"),
-    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]

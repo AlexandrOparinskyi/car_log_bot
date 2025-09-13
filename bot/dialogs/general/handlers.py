@@ -10,7 +10,8 @@ from bot.states import (HomeState,
                         GarageState,
                         AddCarState,
                         RefuelState,
-                        UserState)
+                        UserState,
+                        ServiceState)
 
 
 async def home_button(callback: CallbackQuery,
@@ -38,8 +39,11 @@ async def back_button(callback: CallbackQuery,
     if callback.data == "garage_back_button_to_edit_menu":
         await dialog_manager.switch_to(state=GarageState.car_info)
 
-    if callback.data == "back_to_edit_params_refuel":
+    if callback.data == "back_button_to_edit_params_refuel":
         await dialog_manager.switch_to(state=RefuelState.edit_menu)
+
+    if callback.data == "back_button_to_edit_params_service":
+        await dialog_manager.switch_to(state=ServiceState.edit_menu)
 
     if callback.data == "back_button_to_user_home":
         await dialog_manager.switch_to(state=UserState.user_home)

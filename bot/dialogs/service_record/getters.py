@@ -1,8 +1,14 @@
 from typing import Dict
 
+from aiogram.types import User
+from aiogram_dialog import DialogManager
 from fluentogram import TranslatorHub
 
-from utils import get_buttons_for_select_service_type
+from bot.utils import (get_buttons_for_select_service_type,
+                   get_button_for_service_edit_menu,
+                   get_user_by_id,
+                   get_service_data_text)
+from utils import get_service_edit_text_and_buttons
 
 
 async def getter_select_type(i18n: TranslatorHub,
@@ -16,5 +22,43 @@ async def getter_select_type(i18n: TranslatorHub,
 
 
 async def getter_service_edit_menu(i18n: TranslatorHub,
+                                   dialog_manager: DialogManager,
+                                   event_from_user: User,
                                    **kwargs) -> Dict[str, str]:
-    return {"service_edit_menu_text": i18n.service.edit.menu.text()}
+    user = await get_user_by_id(event_from_user.id)
+    dialog_manager.dialog_data.update(user_id=user.id)
+    car = user.get_selected_main_car
+
+    if not dialog_manager.dialog_data.get("car") and car:
+        dialog_manager.dialog_data.update(car=car)
+
+    service_data = get_service_data_text(i18n,
+                                         dialog_manager.dialog_data)
+    service_edit_menu_text = i18n.service.edit.menu.text(
+        service_data=service_data
+    )
+    buttons = get_button_for_service_edit_menu(i18n)
+
+    return {"service_edit_menu_text": service_edit_menu_text,
+            "buttons": buttons,
+            "home_button": i18n.home.button()}
+
+
+async def getter_service_edit_param(i18n: TranslatorHub,
+                                    dialog_manager: DialogManager,
+                                    event_from_user: User,
+                                    **kwargs) -> Dict[str, str]:
+    user = await get_user_by_id(event_from_user.id)
+    service_param = dialog_manager.dialog_data.get("service_param")
+    text, buttons = get_service_edit_text_and_buttons(i18n,
+                                                      service_param,
+                                                      user.active_cars)
+
+    return {"service_edit_text": text,
+            "buttons": buttons,
+            "back_button": i18n.back.button()}
+
+
+async def service_calendar(i18n: TranslatorHub,
+                           **kwargs) -> Dict[str, str]:
+    return {"service_calendar_text": i18n.service.calendar.text()}

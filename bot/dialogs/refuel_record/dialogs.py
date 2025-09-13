@@ -64,7 +64,7 @@ refuel_dialog = Dialog(
                      filter=check_enter_refuel_param),
         MessageInput(func=error_enter_no_text),
         Button(Format("{back_button}"),
-               id="back_to_edit_params_refuel",
+               id="back_button_to_edit_params_refuel",
                on_click=back_button),
         getter=getter_refuel_edit_param,
         state=RefuelState.edit_to_text
@@ -78,7 +78,7 @@ refuel_dialog = Dialog(
                      on_click=select_refuel_param_button),
               width=2),
         Button(Format("{back_button}"),
-               id="back_to_edit_params_refuel",
+               id="back_button_to_edit_params_refuel",
                on_click=back_button),
         getter=getter_refuel_edit_param,
         state=RefuelState.edit_to_button

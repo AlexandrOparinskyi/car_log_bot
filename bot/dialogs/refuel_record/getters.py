@@ -52,7 +52,7 @@ async def getter_refuel_edit_param(i18n: TranslatorHub,
     refuel_param = dialog_manager.dialog_data.get("refuel_param")
     text, buttons = get_refuel_edit_text_and_buttons(i18n,
                                                      refuel_param,
-                                                     user.cars)
+                                                     user.active_cars)
 
     return {"refuel_edit_text": text,
             "buttons": buttons,
