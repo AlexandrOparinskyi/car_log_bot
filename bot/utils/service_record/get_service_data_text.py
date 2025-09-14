@@ -6,8 +6,10 @@ from fluentogram import TranslatorHub
 from database import Car, ServiceTypeEnum
 
 
-def get_service_data_text(i18n: TranslatorHub,
-                          data: Dict[str, str | Car | datetime]) -> str:
+def get_service_data_text(
+        i18n: TranslatorHub,
+        data: Dict[str, str | Car | datetime | Dict]
+) -> str:
     """
     Генерирует текст для подробного описания измененных характеристик
     :param i18n: TranslatorHub
@@ -34,9 +36,33 @@ def get_service_data_text(i18n: TranslatorHub,
     else:
         text += f"️🏷️ <b>Название:</b> {title}\n"
 
+    service_work_data = data.get("service_work_data")
+    service_part_data = data.get("service_part_data")
+    price = 0
+    try:
+        for i, j in service_work_data.items():
+            for key, value in j.items():
+                if key == "price":
+                    price += float(value)
+    except ValueError:
+        pass
+    except AttributeError:
+        pass
+    try:
+        for i, j in service_part_data.items():
+            for key, value in j.items():
+                if key == "price":
+                    price += value
+    except TypeError:
+        pass
+    except AttributeError:
+        pass
+
     total_price = data.get("total_price")
     if total_price:
         text += f"💰 <b>Стоимость:</b> {total_price} ₽\n"
+    elif price:
+        text += f"💰 <b>Стоимость:</b> {price} ₽\n"
 
     if car:
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"

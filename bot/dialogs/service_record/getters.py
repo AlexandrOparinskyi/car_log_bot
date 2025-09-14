@@ -7,8 +7,12 @@ from fluentogram import TranslatorHub
 from bot.utils import (get_buttons_for_select_service_type,
                        get_button_for_service_edit_menu,
                        get_user_by_id,
-                       get_service_data_text)
-from bot.utils import get_service_edit_text_and_buttons
+                       get_service_data_text,
+                       get_service_edit_text_and_buttons,
+                       get_paginator_buttons,
+                       get_service_work_data_edit_menu,
+                       get_buttons_for_edit_work,
+                       get_service_work_edit_text)
 
 
 async def getter_select_type(i18n: TranslatorHub,
@@ -67,7 +71,8 @@ async def getter_service_edit_param(i18n: TranslatorHub,
 
 async def getter_service_calendar(i18n: TranslatorHub,
                                   **kwargs) -> Dict[str, str]:
-    return {"service_calendar_text": i18n.service.calendar.text()}
+    return {"service_calendar_text": i18n.service.calendar.text(),
+            "back_button": i18n.back.button()}
 
 
 async def getter_add_part_or_work(i18n: TranslatorHub,
@@ -85,4 +90,45 @@ async def getter_add_part_or_work(i18n: TranslatorHub,
         text = i18n.service.add.work.text()
 
     return {"add_param_text": text,
+            "back_button": i18n.back.button()}
+
+
+async def getter_service_work_edit_menu(i18n: TranslatorHub,
+                                        dialog_manager: DialogManager,
+                                        **kwargs) -> Dict[str, str]:
+    selected_work = dialog_manager.dialog_data.get("selected_work")
+    service_work_data = dialog_manager.dialog_data.get("service_work_data")
+
+    work_data = get_service_work_data_edit_menu(
+        i18n,
+        service_work_data[selected_work]
+    )
+    service_work_edit_menu_text = i18n.service.work.edit.menu.text(
+        work_num=selected_work,
+        work_data=work_data
+    )
+
+    paginator_buttons = get_paginator_buttons(
+        len(service_work_data) > 1,
+        selected_work,
+        len(service_work_data)
+    )
+
+    buttons = get_buttons_for_edit_work(i18n)
+
+    return {"service_work_edit_menu_text": service_work_edit_menu_text,
+            "back_button": i18n.service.work.save.button(),
+            "paginator_buttons": paginator_buttons,
+            "delete_service_work_button": i18n.delete.service.work.button(),
+            "buttons": buttons,
+            "add_work_button": i18n.service.add.work.button()}
+
+
+async def getter_service_work_edit_params(i18n: TranslatorHub,
+                                          dialog_manager: DialogManager,
+                                          **kwargs) -> Dict[str, str]:
+    text = get_service_work_edit_text(i18n,
+                                      dialog_manager.dialog_data)
+
+    return {"service_work_edit_text": text,
             "back_button": i18n.back.button()}

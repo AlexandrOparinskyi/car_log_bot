@@ -53,3 +53,15 @@ def replace_dot_at_comma(text: str) -> str:
         return text.replace(",", ".")
 
     return text
+
+
+def get_paginator_buttons(many: bool,
+                          selected: int,
+                          length_data: int) -> Tuple:
+    if many:
+        return (
+            ("<<", "prev"),
+            (f"{selected}/{length_data}", "selected_work"),
+            (">>", "next")
+        )
+    return ()
