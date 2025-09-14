@@ -4,17 +4,20 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Group, Select, Button, Calendar
 from aiogram_dialog.widgets.text import Format
 
-from bot.states import ServiceState
+from bot.states import ServiceState, ServiceWorkState
 from .filters import check_enter_service_param
 from .getters import (getter_select_type,
                       getter_service_edit_menu,
                       getter_service_edit_param,
-                      service_calendar)
+                      getter_service_calendar,
+                      getter_add_part_or_work)
 from .handlers import (select_service_type,
                        service_edit_param,
                        enter_service_param,
                        select_service_param_button,
-                       service_edit_calendar)
+                       service_edit_calendar,
+                       service_add_part_or_work,
+                       enter_service_work_or_part_name)
 from ..general import (back_button,
                        home_button,
                        error_enter_no_text)
@@ -39,12 +42,21 @@ service_dialog = Dialog(
     ),
     Window(
         Format("{service_edit_menu_text}"),
+        Button(Format("{service_add_part_button}"),
+               id="service_add_part_button",
+               on_click=service_add_part_or_work),
+        Button(Format("{service_add_work_button}"),
+               id="service_add_work_button",
+               on_click=service_add_part_or_work),
         Group(Select(Format("{item[0]}"),
                      id="service_edit_menu",
                      item_id_getter=lambda x: x[1],
                      items="buttons",
                      on_click=service_edit_param),
               width=2),
+        Button(Format("{save_button}"),
+               id="save_button",
+               on_click=None),
         Button(Format("{home_button}"),
                id="home_button",
                on_click=home_button),
@@ -64,7 +76,7 @@ service_dialog = Dialog(
         state=ServiceState.param_edit_text
     ),
     Window(
-Format("{service_edit_text}"),
+        Format("{service_edit_text}"),
         Group(Select(Format("{item[0]}"),
                      id="service_edit_params",
                      item_id_getter=lambda x: x[1],
@@ -83,7 +95,22 @@ Format("{service_edit_text}"),
             id="calendar",
             on_click=service_edit_calendar
         ),
-        getter=service_calendar,
+        getter=getter_service_calendar,
         state=ServiceState.calendar
+    )
+)
+
+service_work_dialog = Dialog(
+    Window(
+        Format("{add_param_text}"),
+        MessageInput(func=enter_service_work_or_part_name,
+                     content_types=ContentType.TEXT,
+                    id="service_work"),
+        MessageInput(func=error_enter_no_text),
+        Button(Format("{back_button}"),
+               id="back_button_to_edit_params_service_at_work",
+               on_click=back_button),
+        getter=getter_add_part_or_work,
+        state=ServiceWorkState.work_name
     )
 )

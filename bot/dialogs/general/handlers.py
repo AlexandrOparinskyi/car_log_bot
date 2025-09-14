@@ -51,6 +51,10 @@ async def back_button(callback: CallbackQuery,
     if callback.data == "back_button_to_select_record":
         await dialog_manager.start(state=HomeState.select_record)
 
+    if callback.data == "back_button_to_edit_params_service_at_work":
+        await dialog_manager.start(ServiceState.edit_menu,
+                                   data={**dialog_manager.dialog_data})
+
 
 async def next_state(callback: CallbackQuery,
                      button: Button,

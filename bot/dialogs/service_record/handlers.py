@@ -5,7 +5,7 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Select, Button, Calendar
 
-from bot.states import ServiceState
+from bot.states import ServiceState, ServiceWorkState
 from bot.utils import (replace_dot_at_comma,
                        get_car_by_id)
 
@@ -65,9 +65,29 @@ async def select_service_param_button(callback: CallbackQuery,
 
 
 async def service_edit_calendar(callback: CallbackQuery,
-                           widget,
-                           dialog_manager: DialogManager,
-                           selected_date: date):
+                                widget,
+                                dialog_manager: DialogManager,
+                                selected_date: date):
     dialog_manager.dialog_data.update(date=selected_date)
 
     await dialog_manager.switch_to(state=ServiceState.edit_menu)
+
+
+async def service_add_part_or_work(callback: CallbackQuery,
+                                   button: Button,
+                                   dialog_manager: DialogManager):
+    dialog_manager.dialog_data.update(add_param=callback.data)
+
+    await dialog_manager.start(state=ServiceWorkState.work_name,
+                               data={**dialog_manager.dialog_data})
+
+
+async def enter_service_work_or_part_name(message: Message,
+                                          widget: MessageInput,
+                                          dialog_manager: DialogManager):
+    data = {}
+    lst_params = message.text.split("\n")
+
+    if widget.widget_id == "service_work":
+        for num, param in enumerate(lst_params, 1):
+            print(num, param)

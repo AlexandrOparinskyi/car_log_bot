@@ -58,3 +58,9 @@ class ServiceState(StatesGroup):
     param_edit_text = State()
     param_edit_button = State()
     calendar = State()
+    add_part_or_work = State()
+
+
+class ServiceWorkState(StatesGroup):
+    work_name = State()
+    edit_menu = State()

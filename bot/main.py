@@ -1,3 +1,6 @@
+import locale
+import logging
+
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -12,7 +15,13 @@ from bot.middlewares import TranslatorRunnerMiddleware
 
 
 async def main(token: str,
-               hub: TranslatorHub) -> None:
+               hub: TranslatorHub,
+               logger: logging) -> None:
+    try:
+        locale.setlocale(locale.LC_TIME, 'ru_RU')
+        logger.info("Russian locale installed")
+    except locale.Error:
+        logger.error("Failed to install Russian locale. Default locale is used")
 
     bot: Bot = Bot(
         token=token,
