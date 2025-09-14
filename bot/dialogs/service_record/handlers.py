@@ -76,10 +76,17 @@ async def service_edit_calendar(callback: CallbackQuery,
 async def service_add_part_or_work(callback: CallbackQuery,
                                    button: Button,
                                    dialog_manager: DialogManager):
-    dialog_manager.dialog_data.update(add_param=callback.data)
+    dialog_manager.dialog_data.update(service_param=callback.data)
 
-    await dialog_manager.start(state=ServiceWorkState.work_name,
-                               data={**dialog_manager.dialog_data})
+    if callback.data == "service_add_work_button":
+        await dialog_manager.start(state=ServiceWorkState.work_name,
+                                   data={**dialog_manager.dialog_data})
+        return
+
+    if callback.data == "service_add_part_button":
+        # Здесь будет добавление запчастей
+        await callback.answer("Okay")
+        return
 
 
 async def enter_service_work_or_part_name(message: Message,

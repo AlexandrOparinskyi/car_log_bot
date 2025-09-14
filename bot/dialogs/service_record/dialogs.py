@@ -10,15 +10,21 @@ from .getters import (getter_select_type,
                       getter_service_edit_menu,
                       getter_service_edit_param,
                       getter_service_calendar,
-                      getter_add_part_or_work, getter_service_work_edit_menu, getter_service_work_edit_params)
+                      getter_add_part_or_work,
+                      getter_service_work_edit_menu,
+                      getter_service_work_edit_params)
 from .handlers import (select_service_type,
                        service_edit_param,
                        enter_service_param,
                        select_service_param_button,
                        service_edit_calendar,
                        service_add_part_or_work,
-                       enter_service_work_or_part_name, paginator_handler, select_service_work_edit_param,
-                       enter_service_work_edit_param, delete_service_work_button, add_work_button)
+                       enter_service_work_or_part_name,
+                       paginator_handler,
+                       select_service_work_edit_param,
+                       enter_service_work_edit_param,
+                       delete_service_work_button,
+                       add_work_button)
 from ..general import (back_button,
                        home_button,
                        error_enter_no_text)

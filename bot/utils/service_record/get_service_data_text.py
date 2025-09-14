@@ -4,6 +4,7 @@ from typing import Dict
 from fluentogram import TranslatorHub
 
 from database import Car, ServiceTypeEnum
+from utils import reduce_text_for_data
 
 
 def get_service_data_text(
@@ -71,7 +72,8 @@ def get_service_data_text(
 
     description = data.get("description")
     if description:
-        text += f"📃 <b>Описание:</b> {description}\n"
+        d_text = reduce_text_for_data(description, 15)
+        text += f"📃 <b>Описание:</b> {d_text}\n"
 
     service_name = data.get("service_name")
     if service_name:
@@ -79,9 +81,15 @@ def get_service_data_text(
 
     comment = data.get("comment")
     if comment:
-        text += f"💬 <b>Комментарий:</b> {comment}\n"
+        c_text = reduce_text_for_data(comment, 15)
+        text += f"💬 <b>Комментарий:</b> {c_text}\n"
 
     text += f"🛠️ <b>Тип работ:</b> {ServiceTypeEnum[service_type].value}\n"
     text += f"🗓️ <b>Дата:</b> {date}\n"
+
+    if service_part_data:
+        text += f"🛞 <b>Добавлено запчастей:</b> {len(service_part_data)}\n"
+    if service_work_data:
+        text += f"🔧 <b>Добавлено работ:</b> {len(service_work_data)}\n"
 
     return text

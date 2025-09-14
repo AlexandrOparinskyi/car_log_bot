@@ -58,6 +58,13 @@ def replace_dot_at_comma(text: str) -> str:
 def get_paginator_buttons(many: bool,
                           selected: int,
                           length_data: int) -> Tuple:
+    """
+    Генерирует кнопки для пагинации
+    :param many: bool
+    :param selected: int
+    :param length_data: int
+    :return: Tuple
+    """
     if many:
         return (
             ("<<", "prev"),
@@ -65,3 +72,16 @@ def get_paginator_buttons(many: bool,
             (">>", "next")
         )
     return ()
+
+
+def reduce_text_for_data(text: str, num: int) -> str:
+    """
+    Сокращает текст на заданную длину
+    :param text: str
+    :param num: int
+    :return: str
+    """
+    if len(text) < num:
+        return text
+
+    return text[:num] + "..."

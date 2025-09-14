@@ -81,12 +81,12 @@ async def getter_add_part_or_work(i18n: TranslatorHub,
     if dialog_manager.start_data:
         dialog_manager.dialog_data.update(**dialog_manager.start_data)
 
-    add_param = dialog_manager.dialog_data.get("add_param")
+    service_param = dialog_manager.dialog_data.get("service_param")
     text = i18n.service.edit.error.param.text()
 
-    if add_param == "service_add_part_button":
+    if service_param == "service_add_part_button":
         text = i18n.service.add.part.text()
-    if add_param == "service_add_work_button":
+    if service_param == "service_add_work_button":
         text = i18n.service.add.work.text()
 
     return {"add_param_text": text,
