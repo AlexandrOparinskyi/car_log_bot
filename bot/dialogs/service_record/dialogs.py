@@ -1,7 +1,7 @@
 from aiogram.enums import ContentType
 from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.input import MessageInput
-from aiogram_dialog.widgets.kbd import Group, Select, Button, Calendar, ScrollingGroup, ListGroup
+from aiogram_dialog.widgets.kbd import Group, Select, Button, Calendar
 from aiogram_dialog.widgets.text import Format
 
 from bot.states import ServiceState, ServiceWorkState

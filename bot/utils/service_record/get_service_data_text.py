@@ -4,7 +4,7 @@ from typing import Dict
 from fluentogram import TranslatorHub
 
 from database import Car, ServiceTypeEnum
-from utils import reduce_text_for_data
+from bot.utils import reduce_text_for_data
 
 
 def get_service_data_text(
