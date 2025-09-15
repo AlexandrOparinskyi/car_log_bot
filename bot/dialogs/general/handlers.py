@@ -12,7 +12,8 @@ from bot.states import (HomeState,
                         RefuelState,
                         UserState,
                         ServiceState,
-                        ServiceWorkState)
+                        ServiceWorkState,
+                        ServicePartState)
 
 
 async def home_button(callback: CallbackQuery,
@@ -52,7 +53,8 @@ async def back_button(callback: CallbackQuery,
     if callback.data == "back_button_to_select_record":
         await dialog_manager.start(state=HomeState.select_record)
 
-    if callback.data == "back_button_to_edit_params_service_at_work":
+    if (callback.data == "back_button_to_edit_params_service_at_work" or
+        callback.data == "back_button_to_edit_params_service_at_part"):
         await dialog_manager.start(state=ServiceState.edit_menu,
                                    data={**dialog_manager.dialog_data})
 

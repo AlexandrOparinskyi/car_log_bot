@@ -3,9 +3,9 @@ from datetime import date
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import DialogManager, ShowMode
 from aiogram_dialog.widgets.input import MessageInput
-from aiogram_dialog.widgets.kbd import Select, Button, Calendar
+from aiogram_dialog.widgets.kbd import Select, Button
 
-from bot.states import ServiceState, ServiceWorkState
+from bot.states import ServiceState, ServiceWorkState, ServicePartState
 from bot.utils import (replace_dot_at_comma,
                        get_car_by_id)
 
@@ -84,32 +84,52 @@ async def service_add_part_or_work(callback: CallbackQuery,
         return
 
     if callback.data == "service_add_part_button":
-        # Здесь будет добавление запчастей
-        await callback.answer("Okay")
+        await dialog_manager.start(state=ServicePartState.part_name,
+                                   data={**dialog_manager.dialog_data})
         return
 
 
-async def enter_service_work_or_part_name(message: Message,
-                                          widget: MessageInput,
-                                          dialog_manager: DialogManager):
+async def enter_service_work_name(message: Message,
+                                  widget: MessageInput,
+                                  dialog_manager: DialogManager):
     service_work_data = dialog_manager.dialog_data.get("service_work_data")
     data = {}
     counter = 1
     lst_params = message.text.split("\n")
 
     if service_work_data:
-        data = service_work_data
+        data = service_work_data.copy()
         counter = len(service_work_data) + 1
 
     for num, param in enumerate(lst_params, counter):
         data[num] = {"name": param}
 
-    if widget.widget_id == "service_work":
-        dialog_manager.dialog_data.update(service_work_data=data,
-                                          selected_work=counter,
-                                          add_param=widget.widget_id)
-        await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
-        return
+    dialog_manager.dialog_data.update(service_work_data=data,
+                                      selected_work=counter,
+                                      add_param=widget.widget_id)
+    await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
+
+
+async def enter_service_part_name(message: Message,
+                                  widget: MessageInput,
+                                  dialog_manager: DialogManager):
+    service_part_data = dialog_manager.dialog_data.get("service_part_data")
+
+    data = {}
+    counter = 1
+    lst_params = message.text.split("\n")
+
+    if service_part_data:
+        data = service_part_data
+        counter = len(service_part_data) + 1
+
+    for num, param in enumerate(lst_params, counter):
+        data[num] = {"name": param}
+
+    dialog_manager.dialog_data.update(service_part_data=data,
+                                      selected_part=counter,
+                                      add_param=widget.widget_id)
+    await dialog_manager.switch_to(state=ServicePartState.edit_menu)
 
 
 async def paginator_handler(callback: CallbackQuery,
@@ -117,6 +137,7 @@ async def paginator_handler(callback: CallbackQuery,
                             dialog_manager: DialogManager,
                             item_id: str):
     selected_work = dialog_manager.dialog_data.get("selected_work")
+    selected_part = dialog_manager.dialog_data.get("selected_part")
     add_param = dialog_manager.dialog_data.get("add_param")
 
     if item_id == "selected_work":
@@ -131,19 +152,30 @@ async def paginator_handler(callback: CallbackQuery,
             if selected_work + 1 > len(service_work_data):
                 return
             dialog_manager.dialog_data.update(selected_work=selected_work + 1)
+        if add_param == "service_part":
+            service_part_data = dialog_manager.dialog_data.get(
+                "service_part_data"
+            )
+            if selected_part + 1 > len(service_part_data):
+                return
+            dialog_manager.dialog_data.update(selected_part=selected_part + 1)
 
     if item_id == "prev":
         if add_param == "service_work":
             if selected_work - 1 == 0:
                 return
             dialog_manager.dialog_data.update(selected_work=selected_work - 1)
+        if add_param == "service_part":
+            if selected_part - 1 == 0:
+                return
+            dialog_manager.dialog_data.update(selected_part=selected_part - 1)
 
     await dialog_manager.update(dialog_manager.dialog_data)
 
 
 async def add_work_button(callback: CallbackQuery,
                           button: Button,
-                          dialog_manager: DialogManager,):
+                          dialog_manager: DialogManager, ):
     await dialog_manager.switch_to(state=ServiceWorkState.work_name)
 
 

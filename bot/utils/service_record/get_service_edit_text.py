@@ -41,9 +41,3 @@ def get_service_edit_text_and_buttons(
                    ("Выбрать дату", "select_date")]
 
     return text, buttons
-
-
-
-# (i18n.service.car.button(), "car"),
-# (i18n.service.date.button(), "date"),
-# (i18n.service.type.button(), "service_type")

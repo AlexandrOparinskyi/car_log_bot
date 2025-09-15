@@ -65,3 +65,9 @@ class ServiceWorkState(StatesGroup):
     work_name = State()
     edit_menu = State()
     param_edit_text = State()
+
+
+class ServicePartState(StatesGroup):
+    part_name = State()
+    edit_menu = State()
+    param_edit_text = State()

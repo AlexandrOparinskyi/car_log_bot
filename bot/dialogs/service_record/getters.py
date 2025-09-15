@@ -12,7 +12,9 @@ from bot.utils import (get_buttons_for_select_service_type,
                        get_paginator_buttons,
                        get_service_work_data_edit_menu,
                        get_buttons_for_edit_work,
-                       get_service_work_edit_text)
+                       get_service_work_edit_text,
+                       get_service_part_data_edit_menu)
+from utils import get_buttons_for_edit_part
 
 
 async def getter_select_type(i18n: TranslatorHub,
@@ -122,6 +124,36 @@ async def getter_service_work_edit_menu(i18n: TranslatorHub,
             "delete_service_work_button": i18n.delete.service.work.button(),
             "buttons": buttons,
             "add_work_button": i18n.service.add.work.button()}
+
+
+
+async def getter_service_part_edit_menu(i18n: TranslatorHub,
+                                        dialog_manager: DialogManager,
+                                        **kwargs) -> Dict[str, str]:
+    selected_part = dialog_manager.dialog_data.get("selected_part")
+    service_part_data = dialog_manager.dialog_data.get("service_part_data")
+
+    part_data = get_service_part_data_edit_menu(
+        i18n,
+        service_part_data[selected_part]
+    )
+    service_part_edit_menu_text = i18n.service.part.edit.menu.text(
+        part_num=selected_part,
+        part_data=part_data
+    )
+
+    paginator_buttons = get_paginator_buttons(
+        len(service_part_data) > 1,
+        selected_part,
+        len(service_part_data)
+    )
+
+    buttons = get_buttons_for_edit_part(i18n)
+
+    return {"service_part_edit_menu_text": service_part_edit_menu_text,
+            "paginator_buttons": paginator_buttons,
+            "back_button": i18n.service.work.save.button(),
+            "buttons": buttons}
 
 
 async def getter_service_work_edit_params(i18n: TranslatorHub,

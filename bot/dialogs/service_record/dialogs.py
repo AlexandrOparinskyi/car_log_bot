@@ -4,7 +4,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Group, Select, Button, Calendar
 from aiogram_dialog.widgets.text import Format
 
-from bot.states import ServiceState, ServiceWorkState
+from bot.states import ServiceState, ServiceWorkState, ServicePartState
 from .filters import check_enter_service_param
 from .getters import (getter_select_type,
                       getter_service_edit_menu,
@@ -12,19 +12,19 @@ from .getters import (getter_select_type,
                       getter_service_calendar,
                       getter_add_part_or_work,
                       getter_service_work_edit_menu,
-                      getter_service_work_edit_params)
+                      getter_service_work_edit_params, getter_service_part_edit_menu)
 from .handlers import (select_service_type,
                        service_edit_param,
                        enter_service_param,
                        select_service_param_button,
                        service_edit_calendar,
                        service_add_part_or_work,
-                       enter_service_work_or_part_name,
+                       enter_service_work_name,
                        paginator_handler,
                        select_service_work_edit_param,
                        enter_service_work_edit_param,
                        delete_service_work_button,
-                       add_work_button)
+                       add_work_button, enter_service_part_name)
 from ..general import (back_button,
                        home_button,
                        error_enter_no_text)
@@ -113,7 +113,7 @@ service_dialog = Dialog(
 service_work_dialog = Dialog(
     Window(
         Format("{add_param_text}"),
-        MessageInput(func=enter_service_work_or_part_name,
+        MessageInput(func=enter_service_work_name,
                      content_types=ContentType.TEXT,
                      id="service_work"),
         MessageInput(func=error_enter_no_text),
@@ -159,5 +159,40 @@ service_work_dialog = Dialog(
                on_click=back_button),
         getter=getter_service_work_edit_params,
         state=ServiceWorkState.param_edit_text
+    )
+)
+
+service_part_dialog = Dialog(
+    Window(
+        Format("{add_param_text}"),
+        MessageInput(func=enter_service_part_name,
+                     content_types=ContentType.TEXT,
+                     id="service_part"),
+        MessageInput(func=error_enter_no_text),
+        Button(Format("{back_button}"),
+               id="back_button_to_edit_params_service_at_work",
+               on_click=back_button),
+        getter=getter_add_part_or_work,
+        state=ServicePartState.part_name
+    ),
+    Window(
+        Format("{service_part_edit_menu_text}"),
+        Group(Select(Format("{item[0]}"),
+                     id="service_part_edit_button",
+                     item_id_getter=lambda x: x[1],
+                     items="buttons",
+                     on_click=None),
+              width=2),
+        Group(Select(Format("{item[0]}"),
+                     id="paginator_buttons",
+                     item_id_getter=lambda x: x[1],
+                     items="paginator_buttons",
+                     on_click=paginator_handler),
+              width=3),
+        Button(Format("{back_button}"),
+               id="back_button_to_edit_params_service_at_part",
+               on_click=back_button),
+        getter=getter_service_part_edit_menu,
+        state=ServicePartState.edit_menu
     )
 )
