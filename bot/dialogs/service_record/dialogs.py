@@ -152,8 +152,7 @@ service_work_dialog = Dialog(
     Window(
         Format("{service_work_edit_text}"),
         MessageInput(func=enter_service_work_edit_param,
-                     content_types=ContentType.TEXT,
-                     filter=check_enter_service_param),
+                     content_types=ContentType.TEXT),
         MessageInput(func=error_enter_no_text),
         Button(Format("{back_button}"),
                id="back_button_to_edit_service_work_param",

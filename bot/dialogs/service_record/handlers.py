@@ -1,7 +1,7 @@
 from datetime import date
 
 from aiogram.types import CallbackQuery, Message
-from aiogram_dialog import DialogManager
+from aiogram_dialog import DialogManager, ShowMode
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Select, Button, Calendar
 
@@ -189,10 +189,20 @@ async def enter_service_work_edit_param(message: Message,
     service_work_data = dialog_manager.dialog_data.get("service_work_data")
     service_work_param = dialog_manager.dialog_data.get("service_work_param")
     selected_work = dialog_manager.dialog_data.get("selected_work")
+    i18n = dialog_manager.middleware_data.get("i18n")
     m_text = message.text
 
     if service_work_param == "price":
-        m_text = replace_dot_at_comma(m_text)
+        try:
+            m_text = replace_dot_at_comma(m_text)
+            float(m_text)
+        except ValueError:
+            dialog_manager.show_mode = ShowMode.NO_UPDATE
+            error_text = i18n.service.edit.total.price.error.text()
+            await message.answer(
+                text=error_text
+            )
+            return
 
     service_work_data[selected_work][service_work_param] = m_text
     dialog_manager.dialog_data.update(service_work_data=service_work_data)
