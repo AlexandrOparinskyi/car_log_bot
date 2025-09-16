@@ -73,20 +73,36 @@ async def service_edit_calendar(callback: CallbackQuery,
     await dialog_manager.switch_to(state=ServiceState.edit_menu)
 
 
-async def service_add_part_or_work(callback: CallbackQuery,
-                                   button: Button,
-                                   dialog_manager: DialogManager):
+async def service_add_work(callback: CallbackQuery,
+                           button: Button,
+                           dialog_manager: DialogManager):
     dialog_manager.dialog_data.update(service_param=callback.data)
 
-    if callback.data == "service_add_work_button":
-        await dialog_manager.start(state=ServiceWorkState.work_name,
+    service_work_data = dialog_manager.dialog_data.get("service_work_data")
+    if service_work_data:
+        dialog_manager.dialog_data.update(add_param="service_work")
+        await dialog_manager.start(state=ServiceWorkState.edit_menu,
                                    data={**dialog_manager.dialog_data})
         return
 
-    if callback.data == "service_add_part_button":
-        await dialog_manager.start(state=ServicePartState.part_name,
+    await dialog_manager.start(state=ServiceWorkState.work_name,
+                               data={**dialog_manager.dialog_data})
+
+
+async def service_add_part(callback: CallbackQuery,
+                           button: Button,
+                           dialog_manager: DialogManager):
+    dialog_manager.dialog_data.update(service_param=callback.data)
+    service_part_data = dialog_manager.dialog_data.get("service_part_data")
+
+    if service_part_data:
+        dialog_manager.dialog_data.update(add_param="service_part")
+        await dialog_manager.start(state=ServicePartState.edit_menu,
                                    data={**dialog_manager.dialog_data})
         return
+
+    await dialog_manager.start(state=ServicePartState.part_name,
+                               data={**dialog_manager.dialog_data})
 
 
 async def enter_service_work_name(message: Message,
@@ -98,7 +114,7 @@ async def enter_service_work_name(message: Message,
     lst_params = message.text.split("\n")
 
     if service_work_data:
-        data = service_work_data.copy()
+        data = service_work_data
         counter = len(service_work_data) + 1
 
     for num, param in enumerate(lst_params, counter):
@@ -107,6 +123,8 @@ async def enter_service_work_name(message: Message,
     dialog_manager.dialog_data.update(service_work_data=data,
                                       selected_work=counter,
                                       add_param=widget.widget_id)
+    print(widget.widget_id, dialog_manager.dialog_data)
+
     await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
 
 
@@ -129,6 +147,8 @@ async def enter_service_part_name(message: Message,
     dialog_manager.dialog_data.update(service_part_data=data,
                                       selected_part=counter,
                                       add_param=widget.widget_id)
+    print(widget.widget_id, dialog_manager.dialog_data)
+
     await dialog_manager.switch_to(state=ServicePartState.edit_menu)
 
 
@@ -170,7 +190,7 @@ async def paginator_handler(callback: CallbackQuery,
                 return
             dialog_manager.dialog_data.update(selected_part=selected_part - 1)
 
-    await dialog_manager.update(dialog_manager.dialog_data)
+    await dialog_manager.update({**dialog_manager.dialog_data})
 
 
 async def add_work_button(callback: CallbackQuery,

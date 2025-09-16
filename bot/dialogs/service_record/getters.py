@@ -98,6 +98,11 @@ async def getter_add_part_or_work(i18n: TranslatorHub,
 async def getter_service_work_edit_menu(i18n: TranslatorHub,
                                         dialog_manager: DialogManager,
                                         **kwargs) -> Dict[str, str]:
+    if (dialog_manager.start_data and
+            dialog_manager.start_data.get("service_work_data")):
+        dialog_manager.dialog_data.update(**dialog_manager.start_data)
+        dialog_manager.start_data.clear()
+
     selected_work = dialog_manager.dialog_data.get("selected_work")
     service_work_data = dialog_manager.dialog_data.get("service_work_data")
 
@@ -126,10 +131,14 @@ async def getter_service_work_edit_menu(i18n: TranslatorHub,
             "add_work_button": i18n.service.add.work.button()}
 
 
-
 async def getter_service_part_edit_menu(i18n: TranslatorHub,
                                         dialog_manager: DialogManager,
                                         **kwargs) -> Dict[str, str]:
+    if (dialog_manager.start_data and
+            dialog_manager.start_data.get("service_part_data")):
+        dialog_manager.dialog_data.update(**dialog_manager.start_data)
+        dialog_manager.start_data.clear()
+
     selected_part = dialog_manager.dialog_data.get("selected_part")
     service_part_data = dialog_manager.dialog_data.get("service_part_data")
 
