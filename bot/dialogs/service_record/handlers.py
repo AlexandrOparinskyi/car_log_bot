@@ -307,7 +307,11 @@ async def enter_service_work_edit_param(message: Message,
             )
             return
 
-    service_work_data[selected_work][service_work_param] = m_text
+    if service_work_param == "price":
+        service_work_data[selected_work][service_work_param] = float(m_text)
+    else:
+        service_work_data[selected_work][service_work_param] = float(m_text)
+
     dialog_manager.dialog_data.update(service_work_data=service_work_data)
 
     await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
@@ -345,7 +349,13 @@ async def enter_service_part_edit_param(message: Message,
             )
             return
 
-    service_part_data[selected_part][service_part_param] = m_text
+    if service_part_param == "quantity":
+        service_part_data[selected_part][service_part_param] = int(m_text)
+    elif service_part_param in ("price_per_unit", "total_price"):
+        service_part_data[selected_part][service_part_param] = float(m_text)
+    else:
+        service_part_data[selected_part][service_part_param] = m_text
+
     dialog_manager.dialog_data.update(service_part_data=service_part_data)
 
     await dialog_manager.switch_to(state=ServicePartState.edit_menu)

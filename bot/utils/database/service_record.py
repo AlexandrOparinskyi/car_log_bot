@@ -3,7 +3,7 @@ from typing import Dict
 
 from sqlalchemy import insert
 
-from database import Car, ServiceTypeEnum, get_async_session, ServiceRecord, ServiceWork
+from database import Car, ServiceTypeEnum, get_async_session, ServiceRecord, ServiceWork, ServicePart
 
 
 async def create_service_record(user_id: int,
@@ -66,4 +66,3 @@ async def create_service_work_record(model,
             )
         )
         await session.commit()
-
