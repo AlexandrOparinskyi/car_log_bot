@@ -5,16 +5,27 @@ from aiogram_dialog import DialogManager, ShowMode
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Select, Button
 
-from bot.states import ServiceState, ServiceWorkState, ServicePartState
+from bot.states import (ServiceState,
+                        ServiceWorkState,
+                        ServicePartState,
+                        HomeState)
 from bot.utils import (replace_dot_at_comma,
-                       get_car_by_id)
+                       get_car_by_id,
+                       create_service_record)
+from database import ServiceTypeEnum, ServiceWork, ServicePart
+from utils import create_service_work_record
 
 
 async def select_service_type(callback: CallbackQuery,
                               widget: Select,
                               dialog_manager: DialogManager,
                               item_id: str):
-    dialog_manager.dialog_data.update(service_type=item_id)
+    now_date = date.today()
+    title = (f"{ServiceTypeEnum[item_id].value} "
+             f"{now_date.strftime('%d.%m.%Y')}")
+    dialog_manager.dialog_data.update(service_type=item_id,
+                                      date=now_date,
+                                      title=title)
 
     await dialog_manager.switch_to(state=ServiceState.edit_menu)
 
@@ -123,7 +134,6 @@ async def enter_service_work_name(message: Message,
     dialog_manager.dialog_data.update(service_work_data=data,
                                       selected_work=counter,
                                       add_param=widget.widget_id)
-    print(widget.widget_id, dialog_manager.dialog_data)
 
     await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
 
@@ -142,12 +152,11 @@ async def enter_service_part_name(message: Message,
         counter = len(service_part_data) + 1
 
     for num, param in enumerate(lst_params, counter):
-        data[num] = {"name": param}
+        data[num] = {"name": param, "quantity": 1}
 
     dialog_manager.dialog_data.update(service_part_data=data,
                                       selected_part=counter,
                                       add_param=widget.widget_id)
-    print(widget.widget_id, dialog_manager.dialog_data)
 
     await dialog_manager.switch_to(state=ServicePartState.edit_menu)
 
@@ -199,6 +208,12 @@ async def add_work_button(callback: CallbackQuery,
     await dialog_manager.switch_to(state=ServiceWorkState.work_name)
 
 
+async def add_part_button(callback: CallbackQuery,
+                          button: Button,
+                          dialog_manager: DialogManager, ):
+    await dialog_manager.switch_to(state=ServicePartState.part_name)
+
+
 async def delete_service_work_button(callback: CallbackQuery,
                                      button: Button,
                                      dialog_manager: DialogManager):
@@ -226,6 +241,33 @@ async def delete_service_work_button(callback: CallbackQuery,
     await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
 
 
+async def delete_service_part_button(callback: CallbackQuery,
+                                     button: Button,
+                                     dialog_manager: DialogManager):
+    service_part_data = dialog_manager.dialog_data.get("service_part_data")
+    selected_part = dialog_manager.dialog_data.get("selected_part")
+    data = {}
+    counter = 1
+
+    for key, value in service_part_data.items():
+        if key != selected_part:
+            data[counter] = value
+            counter += 1
+
+    if selected_part == len(service_part_data):
+        selected_part -= 1
+
+    dialog_manager.dialog_data.update(service_part_data=data,
+                                      selected_part=selected_part)
+
+    if not data:
+        await dialog_manager.start(state=ServiceState.edit_menu,
+                                   data={**dialog_manager.dialog_data})
+        return
+
+    await dialog_manager.switch_to(state=ServicePartState.edit_menu)
+
+
 async def select_service_work_edit_param(callback: CallbackQuery,
                                          widget: Select,
                                          dialog_manager: DialogManager,
@@ -233,6 +275,15 @@ async def select_service_work_edit_param(callback: CallbackQuery,
     dialog_manager.dialog_data.update(service_work_param=item_id)
 
     await dialog_manager.switch_to(state=ServiceWorkState.param_edit_text)
+
+
+async def select_service_part_edit_param(callback: CallbackQuery,
+                                         widget: Select,
+                                         dialog_manager: DialogManager,
+                                         item_id: str):
+    dialog_manager.dialog_data.update(service_part_param=item_id)
+
+    await dialog_manager.switch_to(state=ServicePartState.param_edit_text)
 
 
 async def enter_service_work_edit_param(message: Message,
@@ -260,3 +311,58 @@ async def enter_service_work_edit_param(message: Message,
     dialog_manager.dialog_data.update(service_work_data=service_work_data)
 
     await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
+
+
+async def enter_service_part_edit_param(message: Message,
+                                        widget: MessageInput,
+                                        dialog_manager: DialogManager):
+    service_part_data = dialog_manager.dialog_data.get("service_part_data")
+    service_part_param = dialog_manager.dialog_data.get("service_part_param")
+    selected_part = dialog_manager.dialog_data.get("selected_part")
+    i18n = dialog_manager.middleware_data.get("i18n")
+    m_text = message.text
+
+    if service_part_param in ("price", "total_price"):
+        try:
+            m_text = replace_dot_at_comma(m_text)
+            float(m_text)
+        except ValueError:
+            dialog_manager.show_mode = ShowMode.NO_UPDATE
+            error_text = i18n.service.edit.total.price.error.text()
+            await message.answer(
+                text=error_text
+            )
+            return
+
+    if service_part_param == "quantity":
+        try:
+            int(m_text)
+        except ValueError:
+            dialog_manager.show_mode = ShowMode.NO_UPDATE
+            error_text = i18n.service.part.edit.quantity.error.text()
+            await message.answer(
+                text=error_text
+            )
+            return
+
+    service_part_data[selected_part][service_part_param] = m_text
+    dialog_manager.dialog_data.update(service_part_data=service_part_data)
+
+    await dialog_manager.switch_to(state=ServicePartState.edit_menu)
+
+
+async def save_button(callback: CallbackQuery,
+                      button: Button,
+                      dialog_manager: DialogManager):
+    service_id = await create_service_record(**dialog_manager.dialog_data)
+    await create_service_work_record(
+        ServiceWork,
+        dialog_manager.dialog_data.get("service_work_data"),
+        int(service_id)
+    )
+    await create_service_work_record(
+        ServicePart,
+        dialog_manager.dialog_data.get("service_part_data"),
+        int(service_id)
+    )
+    await dialog_manager.start(state=HomeState.home)

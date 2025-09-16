@@ -1,7 +1,8 @@
 from .user import *
 from .cars import *
 from .instructions import *
-from .refuel import *
+from .refuel_record import *
+from .service_record import *
 
 __all__ = ["exists_user",
            "create_user",
@@ -13,4 +14,6 @@ __all__ = ["exists_user",
            "create_new_car",
            "update_car_by_id",
            "create_refuel_record",
-           "add_bonus_points"]
+           "add_bonus_points",
+           "create_service_record",
+           "create_service_work_record"]

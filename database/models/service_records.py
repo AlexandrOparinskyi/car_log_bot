@@ -33,13 +33,15 @@ class ServiceRecord(Base):
     title: Mapped[Optional[str]] = mapped_column(nullable=True)
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     total_price: Mapped[float] = mapped_column(Numeric(20, 2),
-                                               nullable=False)
+                                               nullable=True)
     service_type: Mapped[ServiceTypeEnum] = mapped_column(
         Enum(ServiceTypeEnum)
     )
 
     service_center: Mapped[Optional[str]] = mapped_column(nullable=True)
     comment: Mapped[Optional[str]] = mapped_column(nullable=True)
+    service_date: Mapped[datetime] = mapped_column(DateTime,
+                                                   nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime,
                                                  server_default=func.now(),
                                                  nullable=False)
@@ -65,7 +67,7 @@ class ServiceWork(Base):
     name: Mapped[Optional[str]] = mapped_column(nullable=True)
     description: Mapped[Optional[str]] = mapped_column(nullable=True)
     price: Mapped[float] = mapped_column(Numeric(20, 2),
-                                         nullable=False)
+                                         nullable=True)
 
     service_record = relationship("ServiceRecord",
                                   back_populates="service_works")
@@ -86,7 +88,8 @@ class ServicePart(Base):
     quantity: Mapped[int] = mapped_column(default=1)
     price_per_unit: Mapped[Optional[float]] = mapped_column(Numeric(20, 2),
                                                             nullable=True)
-    total_price: Mapped[float] = mapped_column(Numeric(20, 2))
+    total_price: Mapped[float] = mapped_column(Numeric(20, 2),
+                                               nullable=True)
     comment: Mapped[Optional[str]] = mapped_column(nullable=True)
 
     service_record = relationship("ServiceRecord",

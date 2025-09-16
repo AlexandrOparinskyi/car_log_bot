@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 4159e029c1a8
+Revision ID: 6afd44e7ca33
 Revises: 
-Create Date: 2025-09-11 17:56:44.296542
+Create Date: 2025-09-16 13:30:33.648211
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4159e029c1a8'
+revision: str = '6afd44e7ca33'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -56,8 +56,7 @@ def upgrade() -> None:
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('is_selected_main', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('user_id', 'is_selected_main')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('refuel_records',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -83,10 +82,11 @@ def upgrade() -> None:
     sa.Column('car_id', sa.Integer(), nullable=True),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('total_price', sa.Numeric(precision=20, scale=2), nullable=False),
+    sa.Column('total_price', sa.Numeric(precision=20, scale=2), nullable=True),
     sa.Column('service_type', sa.Enum('REPLACEMENT', 'MAINTENANCE', 'DIAGNOSTICS', 'REPAIR', 'BODY_WORK', 'OTHER', name='servicetypeenum'), nullable=False),
     sa.Column('service_center', sa.String(), nullable=True),
     sa.Column('comment', sa.String(), nullable=True),
+    sa.Column('service_date', sa.DateTime(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['car_id'], ['cars.id'], ondelete='cascade'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='cascade'),
@@ -99,7 +99,7 @@ def upgrade() -> None:
     sa.Column('part_number', sa.String(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('price_per_unit', sa.Numeric(precision=20, scale=2), nullable=True),
-    sa.Column('total_price', sa.Numeric(precision=20, scale=2), nullable=False),
+    sa.Column('total_price', sa.Numeric(precision=20, scale=2), nullable=True),
     sa.Column('comment', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['service_record_id'], ['service_records.id'], ondelete='cascade'),
     sa.PrimaryKeyConstraint('id')
@@ -109,7 +109,7 @@ def upgrade() -> None:
     sa.Column('service_record_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
-    sa.Column('price', sa.Numeric(precision=20, scale=2), nullable=False),
+    sa.Column('price', sa.Numeric(precision=20, scale=2), nullable=True),
     sa.ForeignKeyConstraint(['service_record_id'], ['service_records.id'], ondelete='cascade'),
     sa.PrimaryKeyConstraint('id')
     )

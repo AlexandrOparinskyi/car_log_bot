@@ -13,7 +13,8 @@ from bot.utils import (get_buttons_for_select_service_type,
                        get_service_work_data_edit_menu,
                        get_buttons_for_edit_work,
                        get_service_work_edit_text,
-                       get_service_part_data_edit_menu)
+                       get_service_part_data_edit_menu,
+                       get_service_part_edit_text)
 from utils import get_buttons_for_edit_part
 
 
@@ -33,6 +34,7 @@ async def getter_service_edit_menu(i18n: TranslatorHub,
                                    **kwargs) -> Dict[str, str]:
     if dialog_manager.start_data:
         dialog_manager.dialog_data.update(**dialog_manager.start_data)
+        dialog_manager.start_data.clear()
 
     user = await get_user_by_id(event_from_user.id)
     dialog_manager.dialog_data.update(user_id=user.id)
@@ -128,7 +130,7 @@ async def getter_service_work_edit_menu(i18n: TranslatorHub,
             "paginator_buttons": paginator_buttons,
             "delete_service_work_button": i18n.delete.service.work.button(),
             "buttons": buttons,
-            "add_work_button": i18n.service.add.work.button()}
+            "add_work_button": i18n.service.add.work.two.button()}
 
 
 async def getter_service_part_edit_menu(i18n: TranslatorHub,
@@ -162,7 +164,9 @@ async def getter_service_part_edit_menu(i18n: TranslatorHub,
     return {"service_part_edit_menu_text": service_part_edit_menu_text,
             "paginator_buttons": paginator_buttons,
             "back_button": i18n.service.work.save.button(),
-            "buttons": buttons}
+            "delete_service_part_button": i18n.delete.service.work.button(),
+            "buttons": buttons,
+            "add_part_button": i18n.service.add.part.two.button()}
 
 
 async def getter_service_work_edit_params(i18n: TranslatorHub,
@@ -172,4 +176,14 @@ async def getter_service_work_edit_params(i18n: TranslatorHub,
                                       dialog_manager.dialog_data)
 
     return {"service_work_edit_text": text,
+            "back_button": i18n.back.button()}
+
+
+async def getter_service_part_edit_params(i18n: TranslatorHub,
+                                          dialog_manager: DialogManager,
+                                          **kwargs) -> Dict[str, str]:
+    text = get_service_part_edit_text(i18n,
+                                      dialog_manager.dialog_data)
+
+    return {"service_part_edit_text": text,
             "back_button": i18n.back.button()}
