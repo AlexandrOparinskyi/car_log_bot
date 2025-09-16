@@ -11,9 +11,9 @@ from bot.states import (ServiceState,
                         HomeState)
 from bot.utils import (replace_dot_at_comma,
                        get_car_by_id,
-                       create_service_record)
+                       create_service_record,
+                       create_service_work_record)
 from database import ServiceTypeEnum, ServiceWork, ServicePart
-from utils import create_service_work_record
 
 
 async def select_service_type(callback: CallbackQuery,
