@@ -14,8 +14,8 @@ from bot.utils import (get_buttons_for_select_service_type,
                        get_buttons_for_edit_work,
                        get_service_work_edit_text,
                        get_service_part_data_edit_menu,
-                       get_service_part_edit_text)
-from utils import get_buttons_for_edit_part
+                       get_service_part_edit_text,
+                       get_buttons_for_edit_part)
 
 
 async def getter_select_type(i18n: TranslatorHub,
