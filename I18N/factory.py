@@ -19,6 +19,7 @@ def create_translator_hub() -> TranslatorHub:
                                f'{DIR_PATH}/ru/LC_MESSAGES/user.ftl',
                                f'{DIR_PATH}/ru/LC_MESSAGES/home.ftl',
                                f'{DIR_PATH}/ru/LC_MESSAGES/service.ftl',
+                               f'{DIR_PATH}/ru/LC_MESSAGES/purchase.ftl',
                                f'{DIR_PATH}/ru/LC_MESSAGES/instruction.ftl']),
             ),
             FluentTranslator(
@@ -32,6 +33,7 @@ def create_translator_hub() -> TranslatorHub:
                                f'{DIR_PATH}/en/LC_MESSAGES/user.ftl',
                                f'{DIR_PATH}/en/LC_MESSAGES/home.ftl',
                                f'{DIR_PATH}/en/LC_MESSAGES/service.ftl',
+                               f'{DIR_PATH}/en/LC_MESSAGES/purchase.ftl',
                                f'{DIR_PATH}/en/LC_MESSAGES/instruction.ftl']),
             ),
         ],

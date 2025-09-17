@@ -14,7 +14,7 @@ async def getter_home(i18n: TranslatorHub,
                       **kwargs) -> Dict[str, str]:
     user = await get_user_by_id(event_from_user.id)
     refuel_count = len(user.refuel_records)
-    cost_count = user.get_total_cost
+    cost_count = round(user.get_total_cost, 2)
     current_date = get_current_date(user.created_at)
     list_record = get_three_latest_records(user.get_all_records)
 

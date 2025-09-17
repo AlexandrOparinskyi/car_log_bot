@@ -6,7 +6,7 @@ home-text =
     <b>📊 Твоя статистика:</b>
     🚗 Машин: <b>{ $car_count }</b>
     📝 Записей: <b>{ $records }</b>
-    💎 Вложено: <b>{ $cost_count }</b>
+    💎 Вложено: <b>{ $cost_count } ₽</b>
 
     { $list_record }
     <b>Что делаем сегодня?</b>

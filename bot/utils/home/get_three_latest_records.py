@@ -18,8 +18,8 @@ def get_three_latest_records(lst: List) -> str:
     ))[:3]
 
     for record in records:
-        price = (f"{record.total_price} ₽" if record.total_price
-                 else "? ₽")
+        price = (f"{round(record.total_price, 2)} ₽" if record.total_price
+                 else "❓ ₽")
         if isinstance(record, RefuelRecord):
             text += (f"⛽ {record.refuel_date.strftime('%d.%m.%Y')} • "
                      f"Заправка • "

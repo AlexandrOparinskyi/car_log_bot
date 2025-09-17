@@ -71,3 +71,7 @@ class ServicePartState(StatesGroup):
     part_name = State()
     edit_menu = State()
     param_edit_text = State()
+
+
+class PurchaseState(StatesGroup):
+    pass
