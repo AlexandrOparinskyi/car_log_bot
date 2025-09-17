@@ -24,7 +24,6 @@ async def create_refuel_record(user_id: int,
                                **kwargs):
     updated_values = {"user_id": user_id,
                       "total_price": float(total_price),
-                      "created_at": datetime.now(),
                       "full_tank": full_tank}
 
     if car:
@@ -53,7 +52,9 @@ async def create_refuel_record(user_id: int,
     if comment:
         updated_values.update(comment=comment)
     if date:
-        updated_values.update(created_at=date)
+        updated_values.update(refuel_date=date)
+    else:
+        updated_values.update(refuel_date=datetime.now())
 
     async with get_async_session() as session:
         await session.execute(insert(RefuelRecord).values(

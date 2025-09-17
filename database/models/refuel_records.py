@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Enum, DateTime, func
+from sqlalchemy import ForeignKey, Enum, DateTime, func, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -39,7 +39,8 @@ class RefuelRecord(Base):
                                          nullable=False)
 
     mileage: Mapped[int] = mapped_column(nullable=True)
-    total_price: Mapped[float] = mapped_column(nullable=False)
+    total_price: Mapped[float] = mapped_column(Numeric(20, 2),
+                                               nullable=False)
     liters: Mapped[float] = mapped_column(nullable=True)
     price_per_liter: Mapped[float] = mapped_column(nullable=True)
     fuel_type: Mapped[FuelTypeEnum] = mapped_column(
@@ -55,6 +56,8 @@ class RefuelRecord(Base):
     time: Mapped[float] = mapped_column(nullable=True)
     full_tank: Mapped[bool] = mapped_column(nullable=True)
     comment: Mapped[str] = mapped_column(nullable=True)
+    refuel_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
     created_at: Mapped[datetime] = mapped_column(DateTime,
                                                  server_default=func.now(),
                                                  nullable=False)

@@ -29,7 +29,12 @@ class User(Base):
     refuel_records = relationship("RefuelRecord",
                                   back_populates="user",
                                   lazy="selectin")
-    service_records = relationship("ServiceRecord", back_populates="user")
+    service_records = relationship("ServiceRecord",
+                                   back_populates="user",
+                                   lazy="selectin")
+    purchases = relationship("Purchase",
+                             back_populates="user",
+                             lazy="selectin")
 
     @property
     def active_cars(self):
@@ -48,4 +53,16 @@ class User(Base):
 
     @property
     def get_total_cost(self):
-        return sum([r.total_price for r in self.refuel_records])
+        records = self.service_records + self.refuel_records + self.purchases
+        price = 0
+
+        for i in records:
+            if i.total_price:
+                price += i.total_price
+
+        return price
+
+    @property
+    def get_all_records(self):
+        return self.service_records + self.refuel_records + self.purchases
+
