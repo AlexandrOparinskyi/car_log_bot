@@ -9,13 +9,12 @@ from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram.fsm.storage.redis import RedisStorage
 from fluentogram import TranslatorHub
 from redis.asyncio import Redis
-from sqlalchemy.util import await_only
 
 from I18N import create_translator_hub
 from bot import bot
 from config import Config, get_config
 from database import Car
-from utils import get_car_by_id
+from bot.utils import get_car_by_id
 
 logging.basicConfig(
     level=logging.DEBUG,
