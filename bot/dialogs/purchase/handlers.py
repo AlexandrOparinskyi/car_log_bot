@@ -8,8 +8,8 @@ from aiogram_dialog.widgets.kbd import Select, Button
 from bot.states import PurchaseState, HomeState
 from bot.utils import (get_car_by_id,
                        save_purchase,
-                       replace_dot_at_comma)
-from utils import get_user_by_id
+                       replace_dot_at_comma,
+                       get_user_by_id)
 
 
 async def enter_purchase_total_price(message: Message,
