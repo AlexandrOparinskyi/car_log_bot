@@ -3,13 +3,6 @@ from typing import List
 from database import RefuelRecord, ServiceRecord, Purchase
 
 
-def get_normal_title(title: str) -> str:
-    if len(title) < 14:
-        return title
-
-    return f"{title[:11]}..."
-
-
 def get_three_latest_records(lst: List) -> str:
     if not lst:
         return ("<b>🌱 История только начинается</b>\n"
@@ -33,11 +26,11 @@ def get_three_latest_records(lst: List) -> str:
                      f"{price}\n")
         if isinstance(record, ServiceRecord):
             text += (f"🛠️ {record.service_date.strftime('%d.%m.%Y')} • "
-                     f"{get_normal_title(record.title)} • "
+                     f"{record.title} • "
                      f"{price}\n")
         if isinstance(record, Purchase):
             text += (f"💵 {record.purchase_date.strftime('%d.%m.%Y')} • "
-                     f"{get_normal_title(record.title)} • "
+                     f"{record.title} • "
                      f"{price}\n")
 
     return text
