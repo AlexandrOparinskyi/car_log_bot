@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import BotCommand
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub
@@ -14,9 +15,12 @@ from bot.handlers import register_routers
 from bot.middlewares import TranslatorRunnerMiddleware
 
 
-async def main(token: str,
-               hub: TranslatorHub,
-               logger: logging) -> None:
+async def main(
+        token: str,
+        hub: TranslatorHub,
+        logger: logging,
+        storage: RedisStorage | MemoryStorage = MemoryStorage()
+) -> None:
     try:
         locale.setlocale(locale.LC_TIME, 'ru_RU')
         logger.info("Russian locale installed")
@@ -27,7 +31,7 @@ async def main(token: str,
         token=token,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
-    dp: Dispatcher = Dispatcher(storage=MemoryStorage())
+    dp: Dispatcher = Dispatcher(storage=storage)
 
     await bot.set_my_commands(
         commands=[

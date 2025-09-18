@@ -27,45 +27,46 @@ async def home_button(callback: CallbackQuery,
 async def back_button(callback: CallbackQuery,
                       button: Button,
                       dialog_manager: DialogManager):
-    if callback.data == "start_back_button_to_car_edit_menu":
+    print(button.widget_id)
+    if button.widget_id == "start_back_button_to_car_edit_menu":
         await dialog_manager.switch_to(state=StartState.edit_car_menu)
 
-    if callback.data == "back_button_to_instructions":
+    if button.widget_id == "back_button_to_instructions":
         await dialog_manager.switch_to(state=InstructionState.instructions)
 
-    if callback.data == "back_button_to_garage":
+    if button.widget_id == "back_button_to_garage":
         await dialog_manager.start(state=GarageState.garage)
 
-    if callback.data == "back_button_to_edit_menu":
+    if button.widget_id == "back_button_to_edit_menu":
         await dialog_manager.switch_to(state=AddCarState.edit_car_menu)
 
-    if callback.data == "garage_back_button_to_edit_menu":
+    if button.widget_id == "garage_back_button_to_edit_menu":
         await dialog_manager.switch_to(state=GarageState.car_info)
 
-    if callback.data == "back_button_to_edit_params_refuel":
+    if button.widget_id == "back_button_to_edit_params_refuel":
         await dialog_manager.switch_to(state=RefuelState.edit_menu)
 
-    if callback.data == "back_button_to_edit_params_service":
+    if button.widget_id == "back_button_to_edit_params_service":
         await dialog_manager.switch_to(state=ServiceState.edit_menu)
 
-    if callback.data == "back_button_to_user_home":
+    if button.widget_id == "back_button_to_user_home":
         await dialog_manager.switch_to(state=UserState.user_home)
 
-    if callback.data == "back_button_to_select_record":
+    if button.widget_id == "back_button_to_select_record":
         await dialog_manager.start(state=HomeState.select_record)
 
-    if (callback.data == "back_button_to_edit_params_service_at_work" or
-        callback.data == "back_button_to_edit_params_service_at_part"):
+    if (button.widget_id == "back_button_to_edit_params_service_at_work" or
+        button.widget_id == "back_button_to_edit_params_service_at_part"):
         await dialog_manager.start(state=ServiceState.edit_menu,
                                    data={**dialog_manager.dialog_data})
 
-    if callback.data == "back_button_to_edit_service_work_param":
+    if button.widget_id == "back_button_to_edit_service_work_param":
         await dialog_manager.switch_to(state=ServiceWorkState.edit_menu)
 
-    if callback.data == "back_button_to_edit_service_part_param":
+    if button.widget_id == "back_button_to_edit_service_part_param":
         await dialog_manager.switch_to(state=ServicePartState.edit_menu)
 
-    if callback.data == "back_button_to_purchase_edit_menu":
+    if button.widget_id == "back_button_to_purchase_edit_menu":
         await dialog_manager.switch_to(state=PurchaseState.edit_menu)
 
 

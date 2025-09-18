@@ -29,7 +29,7 @@ async def save_purchase(user_id: int,
     updated_data = {"user_id": user_id,
                     "title": title,
                     "total_price": total_price,
-                    "quantity": quantity,
+                    "quantity": int(quantity),
                     "purchase_date": date}
 
     if price_per_unit:

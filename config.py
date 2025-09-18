@@ -27,10 +27,18 @@ class AdminPanel:
 
 
 @dataclass
+class RedisConfig:
+    host: str
+    port: int
+    db: int
+
+
+@dataclass
 class Config:
     tg_bot: TgBot
     db: Db
     admin_panel: AdminPanel
+    redis: RedisConfig
 
 
 def get_config(path: Optional[str] = None) -> Config:
@@ -52,5 +60,10 @@ def get_config(path: Optional[str] = None) -> Config:
             username=env("ADMIN_USERNAME"),
             password=env("ADMIN_PASSWORD"),
             secret_key=env("ADMIN_SECRET_KEY")
+        ),
+        redis=RedisConfig(
+            host=env("REDIS_HOST"),
+            port=int(env("REDIS_PORT")),
+            db=int(env("REDIS_DB")),
         )
     )

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import DialogManager, ShowMode
@@ -66,6 +66,10 @@ async def select_service_param_button(callback: CallbackQuery,
         return
 
     service_param = dialog_manager.dialog_data.get("service_param")
+
+    if service_param == "date":
+        data = list(map(int, item_id.split("-")))
+        item_id = datetime(*data)
 
     if service_param == "car":
         item_id = await get_car_by_id(int(item_id))

@@ -30,6 +30,17 @@ services:
         condition: service_healthy
     restart: on-failure
 
+  redis:
+    image: redis:7-alpine
+    container_name: bot_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    depends_on:
+      - migrations
+
   bot:
     build:
       context: .
@@ -62,3 +73,4 @@ services:
 
 volumes:
   db_data:
+  redis_data:
