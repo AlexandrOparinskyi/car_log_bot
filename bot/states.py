@@ -39,13 +39,6 @@ class AddCarState(StatesGroup):
     edit_to_button = State()
 
 
-class RefuelState(StatesGroup):
-    total_price = State()
-    edit_menu = State()
-    edit_to_text = State()
-    edit_to_button = State()
-
-
 class UserState(StatesGroup):
     user_home = State()
     invite_friends = State()
@@ -73,5 +66,16 @@ class ServicePartState(StatesGroup):
     param_edit_text = State()
 
 
+class RefuelState(StatesGroup):
+    total_price = State()
+    edit_menu = State()
+    edit_to_text = State()
+    edit_to_button = State()
+
+
 class PurchaseState(StatesGroup):
-    pass
+    total_price = State()
+    edit_menu = State()
+    edit_to_text = State()
+    edit_to_button = State()
+    calendar = State()

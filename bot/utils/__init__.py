@@ -4,6 +4,7 @@ from .car import *
 from .refuel_record import *
 from .home import *
 from .service_record import *
+from .purchase import *
 
 __all__ = ["get_button_for_add_components",
            "get_text_for_select_part",
@@ -14,4 +15,5 @@ __all__ = ["get_button_for_add_components",
            car.__all__,
            refuel_record.__all__,
            home.__all__,
-           service_record.__all__]
+           service_record.__all__,
+           purchase.__all__,]

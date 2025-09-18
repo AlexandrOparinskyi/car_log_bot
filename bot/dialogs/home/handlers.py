@@ -2,7 +2,10 @@ from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Button
 
-from bot.states import HomeState, RefuelState, ServiceState
+from bot.states import (HomeState,
+                        RefuelState,
+                        ServiceState,
+                        PurchaseState)
 
 
 async def developer_button(callback: CallbackQuery,
@@ -27,3 +30,9 @@ async def service_button(callback: CallbackQuery,
                          button: Button,
                          dialog_manager: DialogManager):
     await dialog_manager.start(state=ServiceState.select_type)
+
+
+async def purchase_button(callback: CallbackQuery,
+                          button: Button,
+                          dialog_manager: DialogManager):
+    await dialog_manager.start(state=PurchaseState.total_price)
