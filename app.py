@@ -2,20 +2,20 @@ import asyncio
 import json
 import locale
 import logging
-from datetime import datetime, date, timedelta
-from decimal import Decimal
+from datetime import datetime, date
 from typing import Any
-from uuid import UUID
 
 from aiogram.fsm.storage.base import DefaultKeyBuilder
-from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
 from fluentogram import TranslatorHub
 from redis.asyncio import Redis
+from sqlalchemy.util import await_only
 
 from I18N import create_translator_hub
 from bot import bot
 from config import Config, get_config
+from database import Car
+from utils import get_car_by_id
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -31,17 +31,22 @@ def custom_json_dumps(obj: Any) -> str:
     def default_encoder(o):
         if isinstance(o, (datetime, date)):
             return {'__type__': 'datetime', 'value': o.strftime("%d.%m.%Y")}
+        if isinstance(o, Car):
+            return {'__type__': 'car', 'value': o.id}
         return str(o)
 
     return json.dumps(obj, default=default_encoder, ensure_ascii=False)
 
 
-def custom_json_loads(data: str) -> Any:
+async def custom_json_loads(data: str) -> Any:
     """Кастомная десериализация с восстановлением datetime"""
 
-    def object_hook(obj):
+    async def object_hook(obj):
         if '__type__' in obj and obj['__type__'] == 'datetime':
             return datetime.strptime(obj.get("value"), "%d.%m.%Y")
+        if '__type__' in obj and obj['__type__'] == 'car':
+            car = await get_car_by_id(int(obj["value"]))
+            return car
         return obj
 
     result = json.loads(data, object_hook=object_hook)
@@ -92,8 +97,7 @@ async def main() -> None:
     await asyncio.gather(bot(
         config.tg_bot.token,
         translator_hub,
-        logger,
-        storage
+        logger
     ))
 
 
