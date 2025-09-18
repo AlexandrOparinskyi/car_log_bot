@@ -5,8 +5,8 @@ from fluentogram import TranslatorHub
 
 from bot.utils import (get_user_by_id,
                        get_current_date,
-                       plural_records)
-from utils import get_three_latest_records
+                       get_three_latest_records)
+
 
 
 async def getter_home(i18n: TranslatorHub,
