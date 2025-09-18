@@ -97,7 +97,8 @@ async def main() -> None:
     await asyncio.gather(bot(
         config.tg_bot.token,
         translator_hub,
-        logger
+        logger,
+        storage
     ))
 
 
