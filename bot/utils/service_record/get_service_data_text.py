@@ -4,10 +4,11 @@ from typing import Dict
 from fluentogram import TranslatorHub
 
 from database import Car, ServiceTypeEnum
-from bot.utils import reduce_text_for_data
+from ..general import reduce_text_for_data
+from ..database import get_car_by_id
 
 
-def get_service_data_text(
+async def get_service_data_text(
         i18n: TranslatorHub,
         data: Dict[str, str | Car | datetime | Dict]
 ) -> str:
@@ -67,6 +68,7 @@ def get_service_data_text(
         data.update(total_price=str(price))
 
     if car:
+        car = await get_car_by_id(int(car))
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"
         if car.mileage:
             text += f"🛣️ <b>Пробег:</b> {car.mileage}\n"

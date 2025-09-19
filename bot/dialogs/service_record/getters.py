@@ -1,3 +1,4 @@
+import logging
 from typing import Dict
 
 from aiogram.types import User
@@ -41,10 +42,10 @@ async def getter_service_edit_menu(i18n: TranslatorHub,
     car = user.get_selected_main_car
 
     if not dialog_manager.dialog_data.get("car") and car:
-        dialog_manager.dialog_data.update(car=car)
+        dialog_manager.dialog_data.update(car=car.id)
 
-    service_data = get_service_data_text(i18n,
-                                         dialog_manager.dialog_data)
+    service_data = await get_service_data_text(i18n,
+                                               dialog_manager.dialog_data)
     service_edit_menu_text = i18n.service.edit.menu.text(
         service_data=service_data
     )
@@ -110,7 +111,7 @@ async def getter_service_work_edit_menu(i18n: TranslatorHub,
 
     work_data = get_service_work_data_edit_menu(
         i18n,
-        service_work_data[selected_work]
+        service_work_data[str(selected_work)]
     )
     service_work_edit_menu_text = i18n.service.work.edit.menu.text(
         work_num=selected_work,
@@ -146,7 +147,7 @@ async def getter_service_part_edit_menu(i18n: TranslatorHub,
 
     part_data = get_service_part_data_edit_menu(
         i18n,
-        service_part_data[selected_part]
+        service_part_data[str(selected_part)]
     )
     service_part_edit_menu_text = i18n.service.part.edit.menu.text(
         part_num=selected_part,

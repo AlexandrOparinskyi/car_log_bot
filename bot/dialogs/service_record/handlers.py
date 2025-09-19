@@ -1,3 +1,4 @@
+import logging
 from datetime import date, datetime
 
 from aiogram.types import CallbackQuery, Message
@@ -71,9 +72,6 @@ async def select_service_param_button(callback: CallbackQuery,
         data = list(map(int, item_id.split("-")))
         item_id = datetime(*data)
 
-    if service_param == "car":
-        item_id = await get_car_by_id(int(item_id))
-
     dialog_manager.dialog_data[service_param] = item_id
 
     await dialog_manager.switch_to(state=ServiceState.edit_menu)
@@ -133,7 +131,7 @@ async def enter_service_work_name(message: Message,
         counter = len(service_work_data) + 1
 
     for num, param in enumerate(lst_params, counter):
-        data[num] = {"name": param}
+        data[str(num)] = {"name": param}
 
     dialog_manager.dialog_data.update(service_work_data=data,
                                       selected_work=counter,
@@ -156,7 +154,7 @@ async def enter_service_part_name(message: Message,
         counter = len(service_part_data) + 1
 
     for num, param in enumerate(lst_params, counter):
-        data[num] = {"name": param, "quantity": 1}
+        data[str(num)] = {"name": param, "quantity": 1}
 
     dialog_manager.dialog_data.update(service_part_data=data,
                                       selected_part=counter,
@@ -227,15 +225,15 @@ async def delete_service_work_button(callback: CallbackQuery,
     counter = 1
 
     for key, value in service_work_data.items():
-        if key != selected_work:
-            data[counter] = value
+        if key != str(selected_work):
+            data[str(counter)] = value
             counter += 1
 
-    if selected_work == len(service_work_data):
+    if str(selected_work) == str(len(service_work_data)):
         selected_work -= 1
 
     dialog_manager.dialog_data.update(service_work_data=data,
-                                      selected_work=selected_work)
+                                      selected_work=str(selected_work))
 
     if not data:
         await dialog_manager.start(state=ServiceState.edit_menu,
@@ -254,15 +252,15 @@ async def delete_service_part_button(callback: CallbackQuery,
     counter = 1
 
     for key, value in service_part_data.items():
-        if key != selected_part:
-            data[counter] = value
+        if key != str(selected_part):
+            data[str(counter)] = value
             counter += 1
 
-    if selected_part == len(service_part_data):
+    if str(selected_part) == str(len(service_part_data)):
         selected_part -= 1
 
     dialog_manager.dialog_data.update(service_part_data=data,
-                                      selected_part=selected_part)
+                                      selected_part=str(selected_part))
 
     if not data:
         await dialog_manager.start(state=ServiceState.edit_menu,
@@ -312,9 +310,9 @@ async def enter_service_work_edit_param(message: Message,
             return
 
     if service_work_param == "price":
-        service_work_data[selected_work][service_work_param] = float(m_text)
+        service_work_data[str(selected_work)][service_work_param] = m_text
     else:
-        service_work_data[selected_work][service_work_param] = float(m_text)
+        service_work_data[str(selected_work)][service_work_param] = m_text
 
     dialog_manager.dialog_data.update(service_work_data=service_work_data)
 
@@ -329,6 +327,10 @@ async def enter_service_part_edit_param(message: Message,
     selected_part = dialog_manager.dialog_data.get("selected_part")
     i18n = dialog_manager.middleware_data.get("i18n")
     m_text = message.text
+
+    logging.info(str(service_part_data))
+    logging.info(str(service_part_param))
+    logging.info(str(selected_part))
 
     if service_part_param in ("price", "total_price"):
         try:
@@ -354,11 +356,11 @@ async def enter_service_part_edit_param(message: Message,
             return
 
     if service_part_param == "quantity":
-        service_part_data[selected_part][service_part_param] = int(m_text)
+        service_part_data[str(selected_part)][service_part_param] = m_text
     elif service_part_param in ("price_per_unit", "total_price"):
-        service_part_data[selected_part][service_part_param] = float(m_text)
+        service_part_data[str(selected_part)][service_part_param] = m_text
     else:
-        service_part_data[selected_part][service_part_param] = m_text
+        service_part_data[str(selected_part)][service_part_param] = m_text
 
     dialog_manager.dialog_data.update(service_part_data=service_part_data)
 
