@@ -8,6 +8,7 @@ from database import (User,
                       EngineTypeEnum,
                       FuelTypeEnum,
                       GasStationTypeEnum)
+from ..database import get_car_by_id
 
 
 def get_price_per_liter(total_price: float,
@@ -41,7 +42,7 @@ def get_comment(comment: str) -> str:
     return comment
 
 
-def get_refuel_data(i18n: TranslatorHub,
+async def get_refuel_data(i18n: TranslatorHub,
                     data: Dict[str, str | Car | datetime],
                     user: User) -> str:
     """
@@ -57,6 +58,7 @@ def get_refuel_data(i18n: TranslatorHub,
     fuel_type = None
 
     if car:
+        car = await get_car_by_id(int(car))
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"
         if car.engine_type == EngineTypeEnum.PETROL:
             fuel_type = FuelTypeEnum.PETROL_95.value

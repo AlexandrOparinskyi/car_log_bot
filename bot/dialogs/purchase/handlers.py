@@ -45,8 +45,7 @@ async def purchase_edit_car(callback: CallbackQuery,
                             widget: Select,
                             dialog_manager: DialogManager,
                             item_id: str):
-    car = await get_car_by_id(int(item_id))
-    dialog_manager.dialog_data.update(car=car)
+    dialog_manager.dialog_data.update(car=item_id)
 
     await dialog_manager.switch_to(state=PurchaseState.edit_menu)
 

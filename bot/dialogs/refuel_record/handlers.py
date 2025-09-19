@@ -57,9 +57,6 @@ async def select_refuel_param_button(callback: CallbackQuery,
 
     refuel_param = dialog_manager.dialog_data.get("refuel_param")
 
-    if refuel_param == "car":
-        item_id = await get_car_by_id(int(item_id))
-
     if refuel_param == "date":
         date = list(map(int, item_id.split("-")))
         item_id = datetime(*date)
