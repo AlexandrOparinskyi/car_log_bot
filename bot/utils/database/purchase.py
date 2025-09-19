@@ -11,7 +11,7 @@ async def save_purchase(user_id: int,
                         quantity: str | None = None,
                         price_per_unit: str | None = None,
                         date: datetime | None = None,
-                        car: Car | None = None,
+                        car: str | None = None,
                         comment: str | None = None,
                         **kwargs) -> None:
     """
@@ -26,20 +26,20 @@ async def save_purchase(user_id: int,
     :param comment: str
     :return: None
     """
-    updated_data = {"user_id": user_id,
+    updated_data = {"user_id": int(user_id),
                     "title": title,
-                    "total_price": total_price,
+                    "total_price": float(total_price),
                     "quantity": int(quantity),
                     "purchase_date": date}
 
     if price_per_unit:
-        updated_data.update(price_per_unit=price_per_unit)
+        updated_data.update(price_per_unit=float(price_per_unit))
     else:
         price = float(total_price) / int(quantity)
-        updated_data.update(price_per_unit=price)
+        updated_data.update(price_per_unit=float(price))
 
     if car:
-        updated_data.update(car_id=car.id)
+        updated_data.update(car_id=int(car))
 
     if comment:
         updated_data.update(comment=comment)

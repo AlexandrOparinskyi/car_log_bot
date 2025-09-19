@@ -4,10 +4,11 @@ from typing import Dict
 from fluentogram import TranslatorHub
 
 from database import Car
-from bot.utils import reduce_text_for_data
+from ..general import reduce_text_for_data
+from ..database import get_car_by_id
 
 
-def get_purchase_data_text(i18n: TranslatorHub,
+async def get_purchase_data_text(i18n: TranslatorHub,
                            data: Dict[str, str | Car | datetime]):
     text = "\n"
     car = data.get("car")
@@ -30,6 +31,7 @@ def get_purchase_data_text(i18n: TranslatorHub,
         text += f"🏷️ <b>Название:</b> {title}"
 
     if car:
+        car = await get_car_by_id(int(car))
         text += f"🚗 <b>Автомобиль:</b> {car.name}\n"
 
     if total_price:

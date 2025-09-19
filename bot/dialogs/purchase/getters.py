@@ -25,10 +25,10 @@ async def getter_purchase_edit_menu(i18n: TranslatorHub,
     car = user.get_selected_main_car
 
     if not dialog_manager.dialog_data.get("car") and car:
-        dialog_manager.dialog_data.update(car=car)
+        dialog_manager.dialog_data.update(car=car.id)
 
-    purchase_data = get_purchase_data_text(i18n,
-                                           dialog_manager.dialog_data)
+    purchase_data = await get_purchase_data_text(i18n,
+                                                 dialog_manager.dialog_data)
     edit_menu_text = i18n.purchase.edit.menu.text(purchase_data=purchase_data)
 
     buttons = get_button_for_edit_purchase(i18n)
