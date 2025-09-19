@@ -3,16 +3,18 @@ from typing import Optional
 
 from sqlalchemy import insert
 
-from database import (Car,
-                      get_async_session,
+from database import (get_async_session,
                       RefuelRecord,
-                      FuelTypeEnum, GasStationTypeEnum, EngineTypeEnum)
+                      FuelTypeEnum,
+                      GasStationTypeEnum,
+                      EngineTypeEnum)
+from ..database import get_car_by_id
 from ..refuel_record import get_price_per_liter
 
 
 async def create_refuel_record(user_id: int,
                                total_price: float,
-                               car: Optional[Car] = None,
+                               car: Optional[str] = None,
                                liters: Optional[str] = None,
                                price_per_liter: Optional[str] = None,
                                fuel_type: Optional[str] = None,
@@ -22,11 +24,12 @@ async def create_refuel_record(user_id: int,
                                comment: Optional[str] = None,
                                date: Optional[datetime] = None,
                                **kwargs):
-    updated_values = {"user_id": user_id,
+    updated_values = {"user_id": int(user_id),
                       "total_price": float(total_price),
                       "full_tank": full_tank}
 
     if car:
+        car = await get_car_by_id(int(car))
         updated_values.update(car_id=car.id,
                               mileage=car.mileage)
         if car.engine_type == EngineTypeEnum.PETROL:

@@ -90,7 +90,7 @@ async def main() -> None:
         config.tg_bot.token,
         translator_hub,
         logger,
-        #storage
+        storage
     ))
 
 

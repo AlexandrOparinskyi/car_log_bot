@@ -26,11 +26,11 @@ async def getter_refuel_edit_menu(i18n: TranslatorHub,
     car = user.get_selected_main_car
 
     if not dialog_manager.dialog_data.get("car") and car:
-        dialog_manager.dialog_data.update(car=car)
+        dialog_manager.dialog_data.update(car=car.id)
 
-    record_data = get_refuel_data(i18n,
-                                  dialog_manager.dialog_data,
-                                  user)
+    record_data = await get_refuel_data(i18n,
+                                        dialog_manager.dialog_data,
+                                        user)
     refuel_edit_menu_text = i18n.refuel.edit.menu.text(
         record_data=record_data
     )
